@@ -1,0 +1,42 @@
+<!-- CT Forwarding — GREEN variant (brand colour bg, print) -->
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 780" role="img" aria-label="CT Forwarding and Transport">
+  <defs>
+    <linearGradient id="greenShadow" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#065C2B"/>
+      <stop offset="100%" stop-color="#032E15"/>
+    </linearGradient>
+    <linearGradient id="greenText" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#FFFFFF"/>
+      <stop offset="100%" stop-color="#B8EDD0"/>
+    </linearGradient>
+    <clipPath id="arrowClipG">
+      <path d="M 68,62 L 566,62 L 724,390 L 566,718 L 68,718 L 200,390 Z"/>
+    </clipPath>
+  </defs>
+
+  <path
+    d="M 126,120 L 624,120 L 782,448 L 624,776 L 126,776 L 258,448 Z"
+    fill="url(#greenShadow)"
+  />
+
+  <path
+    d="M 68,62 L 566,62 L 724,390 L 566,718 L 68,718 L 200,390 Z"
+    fill="rgba(255,255,255,0.10)"
+    stroke="#FFFFFF"
+    stroke-width="17"
+    stroke-linejoin="miter"
+  />
+
+  <text
+    x="418"
+    y="390"
+    font-family="Arial, 'Helvetica Neue', Helvetica, sans-serif"
+    font-size="300"
+    font-weight="700"
+    text-anchor="middle"
+    dominant-baseline="central"
+    letter-spacing="14"
+    fill="url(#greenText)"
+    clip-path="url(#arrowClipG)"
+  >CT</text>
+</svg>

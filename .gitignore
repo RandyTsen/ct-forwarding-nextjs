@@ -39,3 +39,15 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Large media assets (serve from CDN or public/ only — keep out of git)
+/Pictures/
+*.MOV
+*.mov
+*.HEIC
+*.heic
+*.mp4
+*.MP4
+
+# Claude internal files
+.claude/

@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 780" role="img" aria-label="CT Forwarding and Transport">
+  <defs>
+
+    <!-- CT text gradient: dark indigo at top → warm rust mid → amber at bottom -->
+    <linearGradient id="ctTextGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#2A1888"/>
+      <stop offset="42%"  stop-color="#8B3318"/>
+      <stop offset="100%" stop-color="#C87A10"/>
+    </linearGradient>
+
+    <!-- Orange 3D shadow gradient -->
+    <linearGradient id="shadowGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"   stop-color="#FFA020"/>
+      <stop offset="100%" stop-color="#C86000"/>
+    </linearGradient>
+
+    <!-- Clip path — shape boundary so letters never escape the frame -->
+    <clipPath id="arrowClip">
+      <path d="M 68,62 L 566,62 L 724,390 L 566,718 L 68,718 L 200,390 Z"/>
+    </clipPath>
+
+  </defs>
+
+  <!-- ── 3D SHADOW LAYER (same shape, offset +58/+58, orange gradient) ── -->
+  <path
+    d="M 126,120 L 624,120 L 782,448 L 624,776 L 126,776 L 258,448 Z"
+    fill="url(#shadowGrad)"
+  />
+
+  <!-- ── MAIN ARROW SHAPE ── -->
+  <path
+    d="M 68,62 L 566,62 L 724,390 L 566,718 L 68,718 L 200,390 Z"
+    fill="#FFFFFF"
+    stroke="#1B2FA6"
+    stroke-width="17"
+    stroke-linejoin="miter"
+  />
+
+  <!-- ── "CT" LETTERING ──
+       font-weight 700 (not 900) = thinner strokes matching original.
+       font-size 300 = letters fill ~45% of shape height, matching original proportion.
+       dominant-baseline="central" ensures true vertical centering at y=390.
+       letter-spacing="14" gives natural separation between C and T.
+       Clipped to stay strictly inside the arrow shape boundary.
+  -->
+  <text
+    x="418"
+    y="390"
+    font-family="Arial, 'Helvetica Neue', Helvetica, sans-serif"
+    font-size="300"
+    font-weight="700"
+    text-anchor="middle"
+    dominant-baseline="central"
+    letter-spacing="14"
+    fill="url(#ctTextGrad)"
+    clip-path="url(#arrowClip)"
+  >CT</text>
+
+</svg>

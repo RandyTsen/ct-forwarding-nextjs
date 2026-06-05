@@ -1,26 +1,127 @@
 @import "tailwindcss";
 
+/* ═══════════════════════════════════════════════════════════
+   CT FORWARDING & TRANSPORT — DESIGN SYSTEM
+   Tailwind v4 CSS-first configuration
+═══════════════════════════════════════════════════════════ */
+
+@theme {
+  /* ── Brand Colours ── */
+  --color-primary:        #0B7A3A;
+  --color-primary-dark:   #065C2B;
+  --color-primary-light:  #2FA85A;
+  --color-gold:           #C9A84C;
+  --color-gold-light:     #E2C97E;
+  --color-carbon:         #0D1117;
+  --color-slate:          #1A2332;
+  --color-smoke:          #F4F6F3;
+
+  /* ── Typography ── */
+  --font-display: var(--font-barlow-condensed), "Arial Narrow", Arial, sans-serif;
+  --font-body:    var(--font-inter), -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+  /* ── Spacing extras ── */
+  --spacing-18: 4.5rem;
+  --spacing-22: 5.5rem;
+  --spacing-88: 22rem;
+  --spacing-100: 25rem;
+  --spacing-120: 30rem;
+
+  /* ── Border radius extras ── */
+  --radius-4xl: 2rem;
+
+  /* ── Easing curves (for Framer Motion / GSAP reference) ── */
+  --ease-out-expo:  cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out-quad: cubic-bezier(0.45, 0, 0.55, 1);
+}
+
+/* ── Base reset & global tokens ── */
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --nav-height: 80px;
+  color-scheme: light;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-rendering: optimizeLegibility;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: #ffffff;
+  color: #1A2332;
+  font-family: var(--font-body);
+  overflow-x: hidden;
 }
+
+/* ── Custom scrollbar ── */
+::-webkit-scrollbar              { width: 6px; }
+::-webkit-scrollbar-track        { background: #0D1117; }
+::-webkit-scrollbar-thumb        { background: #0B7A3A; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover  { background: #2FA85A; }
+
+/* ── Text selection ── */
+::selection {
+  background: #0B7A3A;
+  color: #ffffff;
+}
+
+/* ── Hide default cursor on desktop when custom cursor is active ── */
+@media (pointer: fine) {
+  body.custom-cursor-active,
+  body.custom-cursor-active * {
+    cursor: none !important;
+  }
+}
+
+/* ── Loading screen ── */
+.loading-screen {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  background: #0D1117;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* ── Gradient text utility ── */
+.text-gradient-gold {
+  background: linear-gradient(135deg, #C9A84C, #E2C97E);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.text-gradient-green {
+  background: linear-gradient(135deg, #0B7A3A, #2FA85A);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+/* ── Nav link underline animation ── */
+.nav-link {
+  position: relative;
+}
+.nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #0B7A3A;
+  transition: width 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.nav-link:hover::after,
+.nav-link.active::after {
+  width: 100%;
+}
+
+/* ── GSAP reveal helpers (initial hidden states set via JS) ── */
+.gsap-reveal-up    { opacity: 0; transform: translateY(60px); }
+.gsap-reveal-left  { opacity: 0; transform: translateX(-60px); }
+.gsap-reveal-right { opacity: 0; transform: translateX(60px); }
+.gsap-reveal-scale { opacity: 0; transform: scale(0.92); }
