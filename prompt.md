@@ -246,7 +246,132 @@ Additional inner pages built:
 
 ---
 
-## 9. What's NOT Done — Production Readiness Gaps
+## 9. v0 Reference Design — UI/UX Learnings
+
+Randy has a v0-generated design prototype at:
+- **Vercel:** `https://v0-logistics-website-design-1dckjzpvv.vercel.app`
+- **Vercel project:** `v0-logistics-website-design` (team: `randytsen-ymailcoms-projects`)
+
+This was studied in full. Key patterns observed and their applicability:
+
+### Patterns to Adopt
+
+**1. Scroll-jacked Fleet Section ("900vh sticky")**
+- Fleet section uses `height: 900vh` with `position: sticky; top: 0` — scroll drives which vehicle is shown
+- Each vehicle = full-screen background image with left-aligned text, Lucide icon badge, category pill
+- Bottom-right: frosted glass spec card (`backdrop-blur-xl`, `rounded-2xl`, `border-white/10`) showing "01/09", category, capacity
+- Left sidebar: vertical dot nav with vehicle names, active dot is full-size green, inactive are dimmed 25%
+- **Apply to:** Upgrade `FleetTeaser` homepage slide from static grid → this cinematic scroll-driven reveal
+
+**2. Blur-In Entrance Animations**
+- Initial state: `filter: blur(8px); transform: translateY(40px); opacity: 0`
+- Animated to: `filter: blur(0); transform: none; opacity: 1`
+- Creates a premium "camera focus" effect, more sophisticated than plain fade-up
+- **Apply to:** Inner page section entrances — replace basic `opacity + y` with `blur + y`
+
+**3. Film Grain Texture**
+- Entire page wrapped in `<div class="grain">` — a CSS class that adds a subtle noise texture overlay
+- Makes the dark sections feel tactile, less "flat screen" digital
+- **Apply to:** Add grain CSS to `globals.css` and wrap dark sections or the root layout
+
+**4. `aspect-[3/4]` Service Cards with Hover Scale**
+- Services shown as portrait cards with full-bleed background images
+- Icon top-left: `bg-white/10 backdrop-blur-md` → `bg-[#1D6347]/80` on hover
+- Text bottom: title + short descriptor, gradient fade from bottom
+- `group-hover:scale-110` on image with `overflow-hidden` container
+- **Apply to:** ServicesSection on homepage — upgrade from icon+text cards to image-backed portrait cards
+
+**5. Capabilities Accordion (expandable rows)**
+- 3 capability rows: each is a full-width card with image on left (hidden on mobile), icon + title + chevron on right
+- Clicking expands to reveal details — no full page navigation needed for quick reference
+- Image thumbnail `hover:scale-105` transition
+- **Apply to:** Could replace or supplement the current ServicesSection homepage slide
+
+**6. Contact Section — 3-Location Selector + Embedded Map**
+- Left side: 3 clickable location cards (KK HQ active with green left-border accent, Sandakan + Tawau branches)
+- Active card: `border-[#1D6347]/30 bg-[#1D6347]/5 shadow-[#1D6347]/5` + left `w-1` green bar
+- Right side: Google Maps iframe (5:3 grid split) that updates based on selected location
+- Each card includes: phone, email, WhatsApp `wa.me` link
+- **Apply to:** Contact page — upgrade current form-only page with this location selector + map layout. Also need to add real phone numbers and WhatsApp links.
+
+**7. Stats Section with SVG Grid Pattern Background**
+- Dark `#070f0c` bg with SVG `<pattern>` grid lines at 5% opacity using brand green
+- 4 metric cards: `rounded-2xl border border-white/5 bg-white/[0.02] backdrop-blur-sm`
+- Clean, minimal — number + label only
+- **Apply to:** Could enhance the current stats bar in HeroSection or add a dedicated stats section
+
+**8. "Sabah, Malaysia" Hero Pill Badge**
+- `rounded-full border border-white/15 bg-white/5 backdrop-blur-sm px-4 py-2`
+- MapPin Lucide icon + location text
+- Sits above headline — adds geographic authority instantly
+- **Apply to:** HeroSection eyebrow — replace current rule+text with this pill badge style
+
+**9. Real Contact Data (extracted from v0)**
+Use these in the actual Contact page and Footer:
+- **KK HQ:** Unit A905, 9th Floor, Phase 1, Wisma Merdeka, Jalan Tun Razak, 88000 KK — Tel: 088-259663 / 088-258662, Fax: 088-261662, Email: contact@ctforwarding.com.my
+- **Sandakan:** KM 8, Jalan Batu Sapi, Karamunting, 90000 Sandakan — Tel: 089-613881
+- **Tawau:** Mile 3 1/2, Jalan Apas, P.O. Box 61377, 91023 Tawau — Tel: 012-8021662
+- WhatsApp: `https://wa.me/6088259663`
+
+**10. `rounded-2xl` / `rounded-3xl` Design Language**
+- v0 uses very rounded corners throughout (cards, buttons, nav items, badges)
+- Feels more modern and approachable vs. the current `rounded-sm` / `rounded` in our codebase
+- **Consider:** Updating button and card border-radius tokens to align with this more modern style
+
+### What v0 Does NOT Have (Our Advantage)
+- No Bebas Neue display font — our typography hierarchy is more dramatic
+- No snap-scroll homepage — our immersive slide experience is unique
+- No loading screen / brand entry animation
+- Single-page app (no inner pages) — our multi-page architecture with unique service layouts is superior
+- No `ctLoadingComplete` sequencing — our animation timing is more controlled
+
+---
+
+## 10. Project Phase Plan (Full Roadmap)
+
+### Phase 1 — Foundation ✅ COMPLETE
+Stack setup, design tokens, Navbar, Footer, LoadingScreen, CustomCursor.
+
+### Phase 2 — Homepage ✅ COMPLETE
+6-slide snap-scroll homepage with Hero, Services, Fleet, WhyCT, Projects, Clients sections.
+
+### Phase 3 — Inner Pages ✅ COMPLETE
+All 6 unique service pages + About, Contact, Projects, News pages. Each service page uses a deliberately different layout philosophy — no shared templates.
+
+### Phase 4 — Polish & UI Upgrades 🔜 NEXT
+Applying lessons from v0 reference design + production quality improvements:
+- [ ] Upgrade `FleetTeaser` homepage slide → scroll-jacked cinematic reveal (900vh sticky, per-vehicle full-screen with spec card)
+- [ ] Upgrade `ServicesSection` homepage cards → portrait `aspect-[3/4]` image-backed cards with hover-scale
+- [ ] Add blur-in entrance animations (`filter:blur(8px)` → `blur(0)`) to inner page sections
+- [ ] Add film grain texture CSS class to dark sections
+- [ ] Upgrade `HeroSection` eyebrow → pill badge with MapPin icon
+- [ ] Add `rounded-2xl`/`rounded-3xl` to card and button design language
+- [ ] Upgrade Contact page → 3-location selector (KK/Sandakan/Tawau) + embedded Google Maps
+- [ ] Add real phone numbers, addresses, WhatsApp links to Contact page and Footer
+- [ ] 404 page (`src/app/not-found.tsx`) — on-brand design
+
+### Phase 5 — Production Readiness 🔜
+- [ ] Real photography — replace all stock/placeholder images with actual CT Forwarding photos
+- [ ] OG/Social meta images for WhatsApp/Facebook link previews
+- [ ] Mobile QA pass — 375px, 390px, 430px viewports
+- [ ] Lighthouse audit — target 90+ performance score
+- [ ] robots.txt (`src/app/robots.ts`)
+- [ ] Resend API key in Vercel for live contact form emails
+- [ ] Analytics (Vercel Analytics or Google Analytics)
+- [ ] About page depth — real timeline, leadership profiles, mission/values
+
+### Phase 6 — Launch 🔜
+- [ ] Point `ctforwarding.com.my` DNS to Vercel
+- [ ] Final UAT review with Randy
+- [ ] Redirect old Firebase site or update DNS
+
+### Future / Optional
+- [ ] News/Blog CMS (Sanity or Contentlayer) for self-service content updates
+- [ ] Bahasa Malaysia language toggle
+- [ ] Accessibility audit (WCAG 2.1 AA)
+- [ ] Cookie/Privacy banner
+
+---
 
 ### High Priority
 - [ ] **Real images** — most service pages use placeholder/stock. Need actual CT Forwarding photography loaded into `public/images/`
@@ -339,4 +464,4 @@ RESEND_API_KEY=re_xxxxxxxxxxxx   # Required for contact form emails
 
 ---
 
-*Last updated: 2026-06-06 | Commit: `0c44503` | Branch: master*
+*Last updated: 2026-06-06 | Commit: `348317d` | Branch: master | v0 reference analyzed and documented*
