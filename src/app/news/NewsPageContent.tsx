@@ -3,96 +3,7 @@
 import { useState } from "react";
 import Link from "next/link";
 import { InnerLayout } from "@/components/inner/InnerLayout";
-import { PageHero } from "@/components/inner/PageHero";
 import type { SanityNewsPost, SanityCareerPost } from "./types";
-
-// ---------------------------------------------------------------------------
-// Hardcoded fallbacks — shown when Sanity has no content yet
-// ---------------------------------------------------------------------------
-
-const FALLBACK_ANNOUNCEMENTS = [
-  {
-    _id: "ann-1",
-    date: "2025-06-01",
-    tag: "Company",
-    title: "CT Forwarding Expands Fleet to 200+ Units",
-    excerpt:
-      "CT Forwarding & Transport has crossed the 200-unit milestone, making it Sabah's largest private logistics fleet. The expansion includes additional prime movers, low loaders, and specialised trailers.",
-  },
-  {
-    _id: "ann-2",
-    date: "2025-04-15",
-    tag: "Partnership",
-    title: "Renewed Strategic Contract with Telekom Malaysia",
-    excerpt:
-      "CT Forwarding has renewed its long-standing lorry crane services contract with Telekom Malaysia, extending a partnership that spans over a decade of reliable Sabah-wide infrastructure support.",
-  },
-  {
-    _id: "ann-3",
-    date: "2025-02-20",
-    tag: "Achievement",
-    title: "Joseph Chong Re-elected as PPLKKK President",
-    excerpt:
-      "CT Forwarding Director Joseph Chong CMILT has been re-elected as President of Persatuan Pengusaha Lori KK, continuing his leadership role in Sabah's commercial vehicle industry association.",
-  },
-];
-
-const FALLBACK_CAREERS = [
-  {
-    _id: "job-1",
-    location: "Kota Kinabalu, Sabah",
-    type: "Full-Time",
-    department: "Operations",
-    title: "Heavy Vehicle Driver (Prime Mover)",
-    description:
-      "Experienced prime mover drivers required for container haulage operations across Sabah. Valid GDL licence essential. Competitive salary + EPF + SOCSO.",
-    requirements: [],
-  },
-  {
-    _id: "job-2",
-    location: "KKIP, Sabah",
-    type: "Full-Time",
-    department: "Warehouse",
-    title: "Warehouse Supervisor",
-    description:
-      "Supervise day-to-day warehouse operations at our KKIP facility — 120,000+ sq.ft. Experience in container stuffing/unstuffing and inventory management preferred.",
-    requirements: [],
-  },
-  {
-    _id: "job-3",
-    location: "Kota Kinabalu, Sabah",
-    type: "Full-Time",
-    department: "Logistics",
-    title: "Freight Forwarding Executive",
-    description:
-      "Handle import/export documentation, customs clearance coordination, and client communication. Customs Agent knowledge advantageous.",
-    requirements: [],
-  },
-];
-
-const FALLBACK_RESOURCES = [
-  {
-    _id: "res-1",
-    tag: "Guide",
-    title: "Container Haulage in Sabah — What to Know",
-    excerpt:
-      "A practical guide to container haulage requirements in Sabah — LPKP licensing, route permits, port access, and what to look for in a reliable haulage partner.",
-  },
-  {
-    _id: "res-2",
-    tag: "Insight",
-    title: "Project Cargo 101 — Planning Your Heavy Lift",
-    excerpt:
-      "Understanding the planning process for project cargo and heavy lift logistics — route surveys, multi-axle requirements, permit applications, and why experience matters.",
-  },
-  {
-    _id: "res-3",
-    tag: "Regulatory",
-    title: "Customs Clearance in Sabah — The CT Advantage",
-    excerpt:
-      "Why having an in-house Licensed Customs Agent changes the equation — speed, cost, chain of custody, and seamless port-to-warehouse flow.",
-  },
-];
 
 // ---------------------------------------------------------------------------
 // Props
@@ -216,6 +127,32 @@ function ResourceCard({
   );
 }
 
+function EmptyState({ tab }: { tab: Tab }) {
+  const messages: Record<Tab, { heading: string; body: string }> = {
+    announcements: {
+      heading: "No announcements yet",
+      body: "Company news and updates will appear here once published in the CMS.",
+    },
+    careers: {
+      heading: "No open positions",
+      body: "We'll post career opportunities here when they become available.",
+    },
+    resources: {
+      heading: "No resources yet",
+      body: "Guides and industry insights will appear here once published in the CMS.",
+    },
+  };
+
+  const { heading, body } = messages[tab];
+
+  return (
+    <div className="flex flex-col items-center justify-center py-20 text-center">
+      <p className="font-display text-2xl font-bold uppercase text-carbon/30">{heading}</p>
+      <p className="mt-2 font-body text-sm text-slate/50 max-w-sm">{body}</p>
+    </div>
+  );
+}
+
 // ---------------------------------------------------------------------------
 // Main component
 // ---------------------------------------------------------------------------
@@ -227,58 +164,29 @@ export function NewsPageContent({
 }: Props) {
   const [activeTab, setActiveTab] = useState<Tab>("announcements");
 
-  // Use Sanity data if available, otherwise fall back to hardcoded content
-  const announcements =
-    sanityAnnouncements.length > 0
-      ? sanityAnnouncements.map((p) => ({
-          _id: p._id,
-          date: p.publishedAt ?? new Date().toISOString(),
-          tag: p.tag ?? "Update",
-          title: p.title,
-          excerpt: p.excerpt ?? "",
-        }))
-      : FALLBACK_ANNOUNCEMENTS;
-
-  const careers =
-    sanityCarers.length > 0
-      ? sanityCarers.map((c) => ({
-          _id: c._id,
-          department: c.department,
-          title: c.title,
-          type: c.type,
-          location: c.location,
-          description: c.description,
-        }))
-      : FALLBACK_CAREERS;
-
-  const resources =
-    sanityResources.length > 0
-      ? sanityResources.map((p) => ({
-          _id: p._id,
-          tag: p.tag ?? "Resource",
-          title: p.title,
-          excerpt: p.excerpt ?? "",
-        }))
-      : FALLBACK_RESOURCES;
-
   const tabs: { id: Tab; label: string; count: number }[] = [
-    { id: "announcements", label: "Announcements", count: announcements.length },
-    { id: "careers", label: "Careers", count: careers.length },
-    { id: "resources", label: "Resources", count: resources.length },
+    { id: "announcements", label: "Announcements", count: sanityAnnouncements.length },
+    { id: "careers",       label: "Careers",       count: sanityCarers.length },
+    { id: "resources",     label: "Resources",     count: sanityResources.length },
   ];
 
   return (
     <InnerLayout>
-      <PageHero
-        label="News & Updates"
-        title="Stay"
-        titleAccent="Informed"
-        subtitle="Company announcements, career opportunities, and logistics industry insights."
-      />
-
-      {/* Tabs section */}
+      {/* Tabs section — no hardcoded hero above this */}
       <section className="bg-white py-20">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
+
+          {/* Section header */}
+          <div className="mb-10">
+            <p className="text-primary text-[11px] tracking-[0.45em] uppercase font-body font-semibold mb-2 flex items-center gap-2">
+              <span className="w-8 h-px bg-primary-light" />Latest from CT
+            </p>
+            <h1 className="font-display font-extrabold uppercase tracking-wide text-carbon leading-none"
+              style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}>
+              News &amp; <span className="text-primary">Updates</span>
+            </h1>
+          </div>
+
           {/* Tab bar */}
           <div className="mb-12 flex flex-wrap gap-2">
             {tabs.map((tab) => (
@@ -299,30 +207,61 @@ export function NewsPageContent({
             ))}
           </div>
 
-          {/* Tab content */}
+          {/* Tab content — CMS-driven, empty state if no content */}
           {activeTab === "announcements" && (
-            <div className="grid gap-6 lg:grid-cols-3">
-              {announcements.map((item) => (
-                <AnnouncementCard key={item._id} {...item} />
-              ))}
-            </div>
+            sanityAnnouncements.length > 0 ? (
+              <div className="grid gap-6 lg:grid-cols-3">
+                {sanityAnnouncements.map((item) => (
+                  <AnnouncementCard
+                    key={item._id}
+                    date={item.publishedAt ?? new Date().toISOString()}
+                    tag={item.tag ?? "Update"}
+                    title={item.title}
+                    excerpt={item.excerpt ?? ""}
+                  />
+                ))}
+              </div>
+            ) : (
+              <EmptyState tab="announcements" />
+            )
           )}
 
           {activeTab === "careers" && (
-            <div className="grid gap-6 lg:grid-cols-3">
-              {careers.map((item) => (
-                <CareerCard key={item._id} {...item} />
-              ))}
-            </div>
+            sanityCarers.length > 0 ? (
+              <div className="grid gap-6 lg:grid-cols-3">
+                {sanityCarers.map((item) => (
+                  <CareerCard
+                    key={item._id}
+                    department={item.department ?? ""}
+                    title={item.title}
+                    type={item.type ?? "Full-time"}
+                    location={item.location ?? "Kota Kinabalu, Sabah"}
+                    description={item.description ?? ""}
+                  />
+                ))}
+              </div>
+            ) : (
+              <EmptyState tab="careers" />
+            )
           )}
 
           {activeTab === "resources" && (
-            <div className="grid gap-6 lg:grid-cols-3">
-              {resources.map((item) => (
-                <ResourceCard key={item._id} {...item} />
-              ))}
-            </div>
+            sanityResources.length > 0 ? (
+              <div className="grid gap-6 lg:grid-cols-3">
+                {sanityResources.map((item) => (
+                  <ResourceCard
+                    key={item._id}
+                    tag={item.tag ?? "Resource"}
+                    title={item.title}
+                    excerpt={item.excerpt ?? ""}
+                  />
+                ))}
+              </div>
+            ) : (
+              <EmptyState tab="resources" />
+            )
           )}
+
         </div>
       </section>
 
