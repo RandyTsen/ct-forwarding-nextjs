@@ -6,12 +6,13 @@ import Link from "next/link";
 import { ArrowRight, ArrowUpRight, CheckCircle, Truck, Hammer, Factory } from "lucide-react";
 import { PageHero } from "@/components/inner/PageHero";
 import { InnerLayout } from "@/components/inner/InnerLayout";
+import type { SanityProject } from "./types";
 
 // ---------------------------------------------------------------------------
-// Data
+// Hardcoded fallback data
 // ---------------------------------------------------------------------------
 
-const PROJECTS = [
+const FALLBACK_PROJECTS = [
   {
     id: "telekom",
     accentColor: "#0B7A3A",
@@ -95,6 +96,23 @@ const PROJECTS = [
   },
 ] as const;
 
+type ProjectData = {
+  id: string;
+  accentColor: string;
+  tag: string;
+  client: string;
+  scope: string;
+  duration: string;
+  period: string;
+  highlight: string;
+  highlightLabel: string;
+  description: string;
+  outcomes: readonly string[];
+  metrics: readonly { v: string; l: string }[];
+  image: string;
+  imageAlt: string;
+};
+
 // ---------------------------------------------------------------------------
 // Animation variants
 // ---------------------------------------------------------------------------
@@ -140,7 +158,7 @@ function ProjectCard({
   project,
   index,
 }: {
-  project: (typeof PROJECTS)[number];
+  project: ProjectData;
   index: number;
 }) {
   const isEven = index % 2 === 0;
@@ -258,7 +276,31 @@ const FLEET_HIGHLIGHTS = [
 // Main export
 // ---------------------------------------------------------------------------
 
-export function ProjectsPageContent() {
+interface Props {
+  sanityProjects: SanityProject[];
+}
+
+export function ProjectsPageContent({ sanityProjects }: Props) {
+  // Use Sanity data if available, otherwise fall back to hardcoded projects
+  const projects: ProjectData[] =
+    sanityProjects.length > 0
+      ? sanityProjects.map((p) => ({
+          id: p.id,
+          accentColor: p.accentColor ?? "#0B7A3A",
+          tag: p.tag ?? "",
+          client: p.client,
+          scope: p.scope ?? "",
+          duration: p.duration ?? "",
+          period: p.period ?? "",
+          highlight: p.highlight ?? "",
+          highlightLabel: p.highlightLabel ?? "",
+          description: p.description ?? "",
+          outcomes: p.outcomes ?? [],
+          metrics: p.metrics ?? [],
+          image: p.image ?? "/images/hero/aerial-yard.jpg",
+          imageAlt: p.imageAlt ?? p.client,
+        }))
+      : (FALLBACK_PROJECTS as unknown as ProjectData[]);
   return (
     <InnerLayout>
       {/* Hero */}
@@ -302,7 +344,7 @@ export function ProjectsPageContent() {
       {/* Project cards */}
       <section className="bg-white py-20">
         <div className="max-w-6xl mx-auto px-6 flex flex-col gap-16">
-          {PROJECTS.map((project, index) => (
+          {projects.map((project, index) => (
             <ProjectCard key={project.id} project={project} index={index} />
           ))}
         </div>

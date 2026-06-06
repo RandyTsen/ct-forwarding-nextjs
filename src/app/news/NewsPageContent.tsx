@@ -4,100 +4,105 @@ import { useState } from "react";
 import Link from "next/link";
 import { InnerLayout } from "@/components/inner/InnerLayout";
 import { PageHero } from "@/components/inner/PageHero";
+import type { SanityNewsPost, SanityCareerPost } from "./types";
 
 // ---------------------------------------------------------------------------
-// Static data (Sanity-ready structure)
+// Hardcoded fallbacks — shown when Sanity has no content yet
 // ---------------------------------------------------------------------------
 
-const ANNOUNCEMENTS = [
+const FALLBACK_ANNOUNCEMENTS = [
   {
-    id: "ann-1",
+    _id: "ann-1",
     date: "2025-06-01",
     tag: "Company",
     title: "CT Forwarding Expands Fleet to 200+ Units",
     excerpt:
       "CT Forwarding & Transport has crossed the 200-unit milestone, making it Sabah's largest private logistics fleet. The expansion includes additional prime movers, low loaders, and specialised trailers.",
-    readTime: "3 min read",
   },
   {
-    id: "ann-2",
+    _id: "ann-2",
     date: "2025-04-15",
     tag: "Partnership",
     title: "Renewed Strategic Contract with Telekom Malaysia",
     excerpt:
       "CT Forwarding has renewed its long-standing lorry crane services contract with Telekom Malaysia, extending a partnership that spans over a decade of reliable Sabah-wide infrastructure support.",
-    readTime: "2 min read",
   },
   {
-    id: "ann-3",
+    _id: "ann-3",
     date: "2025-02-20",
     tag: "Achievement",
     title: "Joseph Chong Re-elected as PPLKKK President",
     excerpt:
       "CT Forwarding Director Joseph Chong CMILT has been re-elected as President of Persatuan Pengusaha Lori KK, continuing his leadership role in Sabah's commercial vehicle industry association.",
-    readTime: "2 min read",
   },
 ];
 
-const CAREERS = [
+const FALLBACK_CAREERS = [
   {
-    id: "job-1",
+    _id: "job-1",
     location: "Kota Kinabalu, Sabah",
     type: "Full-Time",
     department: "Operations",
     title: "Heavy Vehicle Driver (Prime Mover)",
-    excerpt:
+    description:
       "Experienced prime mover drivers required for container haulage operations across Sabah. Valid GDL licence essential. Competitive salary + EPF + SOCSO.",
-    closing: "Open",
+    requirements: [],
   },
   {
-    id: "job-2",
+    _id: "job-2",
     location: "KKIP, Sabah",
     type: "Full-Time",
     department: "Warehouse",
     title: "Warehouse Supervisor",
-    excerpt:
+    description:
       "Supervise day-to-day warehouse operations at our KKIP facility — 120,000+ sq.ft. Experience in container stuffing/unstuffing and inventory management preferred.",
-    closing: "Open",
+    requirements: [],
   },
   {
-    id: "job-3",
+    _id: "job-3",
     location: "Kota Kinabalu, Sabah",
     type: "Full-Time",
     department: "Logistics",
     title: "Freight Forwarding Executive",
-    excerpt:
+    description:
       "Handle import/export documentation, customs clearance coordination, and client communication. Customs Agent knowledge advantageous.",
-    closing: "Open",
+    requirements: [],
   },
 ];
 
-const RESOURCES = [
+const FALLBACK_RESOURCES = [
   {
-    id: "res-1",
+    _id: "res-1",
     tag: "Guide",
     title: "Container Haulage in Sabah — What to Know",
     excerpt:
       "A practical guide to container haulage requirements in Sabah — LPKP licensing, route permits, port access, and what to look for in a reliable haulage partner.",
-    readTime: "5 min read",
   },
   {
-    id: "res-2",
+    _id: "res-2",
     tag: "Insight",
     title: "Project Cargo 101 — Planning Your Heavy Lift",
     excerpt:
       "Understanding the planning process for project cargo and heavy lift logistics — route surveys, multi-axle requirements, permit applications, and why experience matters.",
-    readTime: "6 min read",
   },
   {
-    id: "res-3",
+    _id: "res-3",
     tag: "Regulatory",
     title: "Customs Clearance in Sabah — The CT Advantage",
     excerpt:
       "Why having an in-house Licensed Customs Agent changes the equation — speed, cost, chain of custody, and seamless port-to-warehouse flow.",
-    readTime: "4 min read",
   },
 ];
+
+// ---------------------------------------------------------------------------
+// Props
+// ---------------------------------------------------------------------------
+
+interface Props {
+  sanityAnnouncements: SanityNewsPost[];
+  sanityResources: SanityNewsPost[];
+  sanityCarers: SanityCareerPost[];
+}
 
 type Tab = "announcements" | "careers" | "resources";
 
@@ -118,8 +123,12 @@ function AnnouncementCard({
   tag,
   title,
   excerpt,
-  readTime,
-}: (typeof ANNOUNCEMENTS)[number]) {
+}: {
+  date: string;
+  tag: string;
+  title: string;
+  excerpt: string;
+}) {
   const formatted = new Date(date).toLocaleDateString("en-MY", {
     year: "numeric",
     month: "long",
@@ -136,8 +145,7 @@ function AnnouncementCard({
         {title}
       </h3>
       <p className="font-body text-sm leading-relaxed text-slate/70">{excerpt}</p>
-      <div className="mt-auto flex items-center justify-between pt-2">
-        <span className="font-body text-xs text-slate/50">{readTime}</span>
+      <div className="mt-auto pt-2">
         <span className="cursor-not-allowed font-body text-xs font-semibold text-slate/40">
           Coming Soon
         </span>
@@ -151,8 +159,14 @@ function CareerCard({
   title,
   type,
   location,
-  excerpt,
-}: (typeof CAREERS)[number]) {
+  description,
+}: {
+  department: string;
+  title: string;
+  type: string;
+  location: string;
+  description: string;
+}) {
   return (
     <article className="flex flex-col gap-4 rounded-sm border border-slate/10 border-l-2 border-l-primary bg-smoke p-6 transition-all hover:border-primary/20 hover:bg-white">
       <div className="flex items-center gap-3">
@@ -163,12 +177,12 @@ function CareerCard({
         {title}
       </h3>
       <p className="font-body text-xs text-slate/60">{location}</p>
-      <p className="font-body text-sm leading-relaxed text-slate/70">{excerpt}</p>
+      <p className="font-body text-sm leading-relaxed text-slate/70">{description}</p>
       <div className="mt-auto pt-2">
         <Link
           href="/contact"
           aria-label={`Apply for ${title} position`}
-          className="inline-block rounded-sm bg-primary px-5 py-3 font-body text-sm font-semibold text-white transition-colors hover:bg-dark"
+          className="inline-block rounded-sm bg-primary px-5 py-3 font-body text-sm font-semibold text-white transition-colors hover:bg-dark cursor-pointer"
         >
           Apply Now
         </Link>
@@ -181,13 +195,15 @@ function ResourceCard({
   tag,
   title,
   excerpt,
-  readTime,
-}: (typeof RESOURCES)[number]) {
+}: {
+  tag: string;
+  title: string;
+  excerpt: string;
+}) {
   return (
-    <article className="relative flex flex-col gap-4 rounded-sm border border-slate/10 bg-smoke p-6 transition-all hover:border-primary/20 hover:bg-white">
+    <article className="flex flex-col gap-4 rounded-sm border border-slate/10 bg-smoke p-6 transition-all hover:border-primary/20 hover:bg-white">
       <div className="flex items-center gap-3">
         <TagBadge label={tag} />
-        <span className="font-body text-xs text-slate/50">{readTime}</span>
       </div>
       <h3 className="font-display text-xl font-bold uppercase leading-tight text-carbon">
         {title}
@@ -204,13 +220,51 @@ function ResourceCard({
 // Main component
 // ---------------------------------------------------------------------------
 
-export function NewsPageContent() {
+export function NewsPageContent({
+  sanityAnnouncements,
+  sanityResources,
+  sanityCarers,
+}: Props) {
   const [activeTab, setActiveTab] = useState<Tab>("announcements");
 
-  const tabs: { id: Tab; label: string }[] = [
-    { id: "announcements", label: "Announcements" },
-    { id: "careers", label: "Careers" },
-    { id: "resources", label: "Resources" },
+  // Use Sanity data if available, otherwise fall back to hardcoded content
+  const announcements =
+    sanityAnnouncements.length > 0
+      ? sanityAnnouncements.map((p) => ({
+          _id: p._id,
+          date: p.publishedAt ?? new Date().toISOString(),
+          tag: p.tag ?? "Update",
+          title: p.title,
+          excerpt: p.excerpt ?? "",
+        }))
+      : FALLBACK_ANNOUNCEMENTS;
+
+  const careers =
+    sanityCarers.length > 0
+      ? sanityCarers.map((c) => ({
+          _id: c._id,
+          department: c.department,
+          title: c.title,
+          type: c.type,
+          location: c.location,
+          description: c.description,
+        }))
+      : FALLBACK_CAREERS;
+
+  const resources =
+    sanityResources.length > 0
+      ? sanityResources.map((p) => ({
+          _id: p._id,
+          tag: p.tag ?? "Resource",
+          title: p.title,
+          excerpt: p.excerpt ?? "",
+        }))
+      : FALLBACK_RESOURCES;
+
+  const tabs: { id: Tab; label: string; count: number }[] = [
+    { id: "announcements", label: "Announcements", count: announcements.length },
+    { id: "careers", label: "Careers", count: careers.length },
+    { id: "resources", label: "Resources", count: resources.length },
   ];
 
   return (
@@ -231,13 +285,16 @@ export function NewsPageContent() {
               <button
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`rounded-full px-6 py-2 font-body text-sm font-semibold transition-colors ${
+                className={`rounded-full px-6 py-2 font-body text-sm font-semibold transition-colors cursor-pointer ${
                   activeTab === tab.id
                     ? "bg-primary text-white"
                     : "bg-smoke text-slate hover:bg-primary/10 hover:text-primary"
                 }`}
               >
                 {tab.label}
+                <span className={`ml-1.5 text-xs ${activeTab === tab.id ? "text-white/70" : "text-slate/40"}`}>
+                  ({tab.count})
+                </span>
               </button>
             ))}
           </div>
@@ -245,24 +302,24 @@ export function NewsPageContent() {
           {/* Tab content */}
           {activeTab === "announcements" && (
             <div className="grid gap-6 lg:grid-cols-3">
-              {ANNOUNCEMENTS.map((item) => (
-                <AnnouncementCard key={item.id} {...item} />
+              {announcements.map((item) => (
+                <AnnouncementCard key={item._id} {...item} />
               ))}
             </div>
           )}
 
           {activeTab === "careers" && (
             <div className="grid gap-6 lg:grid-cols-3">
-              {CAREERS.map((item) => (
-                <CareerCard key={item.id} {...item} />
+              {careers.map((item) => (
+                <CareerCard key={item._id} {...item} />
               ))}
             </div>
           )}
 
           {activeTab === "resources" && (
             <div className="grid gap-6 lg:grid-cols-3">
-              {RESOURCES.map((item) => (
-                <ResourceCard key={item.id} {...item} />
+              {resources.map((item) => (
+                <ResourceCard key={item._id} {...item} />
               ))}
             </div>
           )}
@@ -280,7 +337,7 @@ export function NewsPageContent() {
           </p>
           <button
             onClick={() => setActiveTab("careers")}
-            className="mt-8 inline-block rounded-sm bg-white px-8 py-3 font-body text-sm font-bold text-primary transition-colors hover:bg-smoke"
+            className="mt-8 inline-block rounded-sm bg-white px-8 py-3 font-body text-sm font-bold text-primary transition-colors hover:bg-smoke cursor-pointer"
           >
             View Open Positions
           </button>

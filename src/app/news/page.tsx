@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
+import { sanityServerClient } from "@/sanity/client";
+import { allNewsPostsQuery, allCareerPostsQuery } from "@/sanity/queries";
 import { NewsPageContent } from "./NewsPageContent";
+import type { SanityNewsPost, SanityCareerPost } from "./types";
+
+export const revalidate = 60; // ISR: revalidate every 60 seconds
 
 export const metadata: Metadata = {
   title: "News & Updates | CT Forwarding & Transport Sdn Bhd",
@@ -13,6 +18,21 @@ export const metadata: Metadata = {
   },
 };
 
-export default function NewsPage() {
-  return <NewsPageContent />;
+export default async function NewsPage() {
+  // Fetch from Sanity — returns empty arrays if no content yet (graceful fallback)
+  const [allPosts, careers] = await Promise.all([
+    sanityServerClient.fetch<SanityNewsPost[]>(allNewsPostsQuery).catch(() => []),
+    sanityServerClient.fetch<SanityCareerPost[]>(allCareerPostsQuery).catch(() => []),
+  ]);
+
+  const announcements = allPosts.filter((p) => p.category === "announcement");
+  const resources = allPosts.filter((p) => p.category === "resource");
+
+  return (
+    <NewsPageContent
+      sanityAnnouncements={announcements}
+      sanityResources={resources}
+      sanityCarers={careers}
+    />
+  );
 }

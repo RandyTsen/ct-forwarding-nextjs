@@ -1,5 +1,10 @@
 import type { Metadata } from "next";
+import { sanityServerClient } from "@/sanity/client";
+import { allProjectsQuery } from "@/sanity/queries";
 import { ProjectsPageContent } from "./ProjectsPageContent";
+import type { SanityProject } from "./types";
+
+export const revalidate = 60; // ISR: revalidate every 60 seconds
 
 export const metadata: Metadata = {
   title: "Projects | CT Forwarding & Transport Sdn Bhd",
@@ -12,6 +17,10 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ProjectsPage() {
-  return <ProjectsPageContent />;
+export default async function ProjectsPage() {
+  const sanityProjects = await sanityServerClient
+    .fetch<SanityProject[]>(allProjectsQuery)
+    .catch(() => []);
+
+  return <ProjectsPageContent sanityProjects={sanityProjects} />;
 }
