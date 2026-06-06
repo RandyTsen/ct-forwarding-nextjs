@@ -94,7 +94,7 @@ export default function RootLayout({
           "sameAs": []
         }) }} />
       </head>
-      <body className="min-h-full flex flex-col bg-white text-slate font-body">
+      <body className="min-h-full flex flex-col bg-white text-slate font-body grain">
 
         {/* Custom cursor — desktop only */}
         <CustomCursor />

@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import { motion } from "framer-motion";
-import { ArrowRight, ChevronsDown } from "lucide-react";
+import { ArrowRight, ChevronsDown, MapPin } from "lucide-react";
 
 function scrollToNext() {
   const fn = (window as unknown as Record<string, unknown>).__ctScrollToSlide as ((i: number) => void) | undefined;
@@ -79,16 +79,17 @@ export function HeroSection() {
         <div className="text-center max-w-5xl mx-auto">
 
           {/* Eyebrow */}
-          <motion.p
+          <motion.div
             variants={FADE_UP(0)}
             initial="hidden"
             animate={animate}
-            className="inline-flex items-center gap-3 text-primary-light text-[11px] tracking-[0.45em] uppercase font-body font-semibold mb-8"
+            className="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-2 backdrop-blur-sm mb-8"
           >
-            <span className="w-8 h-px bg-primary-light/50" />
-            Established 1999 · Kota Kinabalu, Sabah
-            <span className="w-8 h-px bg-primary-light/50" />
-          </motion.p>
+            <MapPin size={14} className="text-primary-light flex-shrink-0" />
+            <span className="text-xs font-medium uppercase tracking-[0.2em] text-white/80 font-body">Sabah, Malaysia</span>
+            <span className="w-px h-3 bg-white/20 mx-1" />
+            <span className="text-xs font-medium uppercase tracking-[0.15em] text-white/55 font-body">Est. 1999</span>
+          </motion.div>
 
           {/* Headline */}
           <h1

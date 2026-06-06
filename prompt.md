@@ -338,17 +338,16 @@ Stack setup, design tokens, Navbar, Footer, LoadingScreen, CustomCursor.
 ### Phase 3 — Inner Pages ✅ COMPLETE
 All 6 unique service pages + About, Contact, Projects, News pages. Each service page uses a deliberately different layout philosophy — no shared templates.
 
-### Phase 4 — Polish & UI Upgrades 🔜 NEXT
-Applying lessons from v0 reference design + production quality improvements:
-- [ ] Upgrade `FleetTeaser` homepage slide → scroll-jacked cinematic reveal (900vh sticky, per-vehicle full-screen with spec card)
-- [ ] Upgrade `ServicesSection` homepage cards → portrait `aspect-[3/4]` image-backed cards with hover-scale
-- [ ] Add blur-in entrance animations (`filter:blur(8px)` → `blur(0)`) to inner page sections
-- [ ] Add film grain texture CSS class to dark sections
-- [ ] Upgrade `HeroSection` eyebrow → pill badge with MapPin icon
-- [ ] Add `rounded-2xl`/`rounded-3xl` to card and button design language
-- [ ] Upgrade Contact page → 3-location selector (KK/Sandakan/Tawau) + embedded Google Maps
-- [ ] Add real phone numbers, addresses, WhatsApp links to Contact page and Footer
-- [ ] 404 page (`src/app/not-found.tsx`) — on-brand design
+### Phase 4 — Polish & UI Upgrades ✅ COMPLETE
+All v0 reference learnings + premium UI/UX upgrades applied:
+- [x] **FleetTeaser** → cinematic auto-advancing vehicle carousel (AnimatePresence crossfade, 10 vehicles, full-screen bg, left dot nav, frosted spec card, arrow buttons, keyboard nav, auto-advance 4s, pause on hover, prefers-reduced-motion safe)
+- [x] **ServicesSection** → premium dark cards on `bg-carbon`, per-service accent gradient top-bar (green/blue/gold/purple/red/cyan), blur-in whileInView animations, hover glow effect
+- [x] **HeroSection eyebrow** → pill badge with MapPin icon + "Sabah, Malaysia · Est. 1999" (backdrop-blur, rounded-full)
+- [x] **Film grain texture** → `.grain` CSS class on `<body>`, fixed `::before` pseudo-element at 2.8% opacity
+- [x] **Blur-in animations** → `@keyframes blur-in` utility + `@media (prefers-reduced-motion: reduce)` override in globals.css
+- [x] **Contact page** → full overhaul: 3-location selector (KK HQ / Sandakan / Tawau), interactive Google Maps embed (changes per location), WhatsApp button, real addresses + phone numbers for all 3 offices, contact form wrapped in white card with rounded-3xl
+- [x] **Footer** → WhatsApp link added (MessageCircle icon, #25D366 green)
+- [x] **404 page** → on-brand dark page: giant 404 watermark, MapPin pill badge, "This route has gone off the map." heading, grid background, glow blob, Back to Home + Contact Us CTAs
 
 ### Phase 5 — Production Readiness 🔜
 - [ ] Real photography — replace all stock/placeholder images with actual CT Forwarding photos
@@ -464,4 +463,4 @@ RESEND_API_KEY=re_xxxxxxxxxxxx   # Required for contact form emails
 
 ---
 
-*Last updated: 2026-06-06 | Commit: `348317d` | Branch: master | v0 reference analyzed and documented*
+*Last updated: 2026-06-06 | Phase 4 complete | Branch: master*

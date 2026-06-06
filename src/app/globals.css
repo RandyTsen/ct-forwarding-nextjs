@@ -125,3 +125,33 @@ body {
 .gsap-reveal-left  { opacity: 0; transform: translateX(-60px); }
 .gsap-reveal-right { opacity: 0; transform: translateX(60px); }
 .gsap-reveal-scale { opacity: 0; transform: scale(0.92); }
+
+/* ── Film grain texture overlay ── */
+.grain::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 9998;
+  opacity: 0.028;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  background-size: 200px 200px;
+}
+
+/* ── Blur-in entrance (more premium than plain fade-up) ── */
+@keyframes blur-in {
+  from { opacity: 0; filter: blur(8px); transform: translateY(32px); }
+  to   { opacity: 1; filter: blur(0);   transform: translateY(0); }
+}
+.animate-blur-in {
+  animation: blur-in 0.65s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+/* ── Respect user motion preferences ── */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}

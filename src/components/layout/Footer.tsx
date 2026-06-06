@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { CTLogo } from "@/components/logo/CTLogo";
 import { Container } from "@/components/ui/Container";
-import { Phone, Mail, MapPin, ExternalLink } from "lucide-react";
+import { Phone, Mail, MapPin, ExternalLink, MessageCircle } from "lucide-react";
 
 const serviceLinks = [
   { label: "Transportation",            href: "/services/transportation" },
@@ -124,6 +124,17 @@ export function Footer() {
                 >
                   <Phone size={15} className="text-primary-light mt-0.5 flex-shrink-0" />
                   <span>088-259663 / 258662</span>
+                </a>
+              </li>
+              <li>
+                <a
+                  href="https://wa.me/6088259663"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-start gap-3 text-white/60 hover:text-white transition-colors cursor-pointer"
+                >
+                  <MessageCircle size={15} className="text-[#25D366] mt-0.5 flex-shrink-0" />
+                  <span>WhatsApp Us</span>
                 </a>
               </li>
               <li>
