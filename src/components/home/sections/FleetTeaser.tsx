@@ -67,7 +67,7 @@ function FleetCard({ item }: { item: typeof ALL_FLEET[0] }) {
 
 export function FleetTeaser() {
   return (
-    <div className="bg-carbon flex flex-col overflow-hidden" style={{ height: "100dvh" }}>
+    <div className="bg-carbon flex flex-col overflow-hidden pt-36" style={{ height: "100dvh" }}>
 
       {/* Header — compact */}
       <motion.div
