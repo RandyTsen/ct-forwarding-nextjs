@@ -1,7 +1,5 @@
 import type { Metadata } from "next";
 import { Barlow_Condensed, Inter } from "next/font/google";
-import { Navbar } from "@/components/layout/Navbar";
-import { CustomCursor } from "@/components/common/CustomCursor";
 import "./globals.css";
 
 /* ── Google Fonts ── */
@@ -52,15 +50,16 @@ export const metadata: Metadata = {
     title: "CT Forwarding & Transport Sdn Bhd",
     description: "Sabah's trusted logistics partner since 1998.",
   },
-  robots: {
-    index: true,
-    follow: true,
-  },
+  robots: { index: true, follow: true },
 };
 
-export default function RootLayout({
-  children,
-}: Readonly<{ children: React.ReactNode }>) {
+/**
+ * Root layout — only html/body shell + fonts.
+ * No Navbar, no grain, no site chrome.
+ * Site chrome lives in (site)/layout.tsx.
+ * /studio gets no chrome at all.
+ */
+export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
       lang="en"
@@ -94,18 +93,8 @@ export default function RootLayout({
           "sameAs": []
         }) }} />
       </head>
-      <body className="min-h-full flex flex-col bg-white text-slate font-body grain">
-
-        {/* Custom cursor — desktop only */}
-        <CustomCursor />
-
-        {/* Navigation */}
-        <Navbar />
-
-        {/* Page content */}
-        <main className="flex-1">
-          {children}
-        </main>
+      <body className="min-h-full">
+        {children}
       </body>
     </html>
   );

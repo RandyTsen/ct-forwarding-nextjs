@@ -45,12 +45,33 @@ function formatDate(iso: string) {
   });
 }
 
-// News / Resource card — clickable, links to /news/[slug]
-function NewsCard({ post }: { post: SanityNewsPost }) {
+const IS_DEV = process.env.NODE_ENV !== "production";
+
+// News / Resource card — whole card is a clickable Link to /news/[slug]
+function NewsCard({ post, ctaLabel = "Read full article" }: { post: SanityNewsPost; ctaLabel?: string }) {
+  // Dev guard: warn loudly if slug is missing so it doesn't silently break
+  if (!post.slug) {
+    if (IS_DEV) {
+      return (
+        <div className="flex flex-col gap-2 rounded-sm border-2 border-dashed border-red-400 bg-red-50 p-4">
+          <span className="font-body text-xs font-bold text-red-600 uppercase tracking-wider">
+            ⚠ Dev Warning: Missing slug
+          </span>
+          <span className="font-body text-xs text-red-500">{post.title}</span>
+          <span className="font-body text-xs text-red-400">
+            Open Sanity Studio → News Post → generate a slug → publish.
+          </span>
+        </div>
+      );
+    }
+    // In production: skip the card silently rather than render a broken link
+    return null;
+  }
+
   return (
     <Link
       href={`/news/${post.slug}`}
-      className="group flex flex-col gap-0 rounded-sm border border-slate/10 bg-smoke overflow-hidden transition-all hover:border-primary/20 hover:bg-white hover:shadow-md"
+      className="group flex flex-col gap-0 rounded-sm border border-slate/10 bg-smoke overflow-hidden transition-all hover:border-primary/20 hover:bg-white hover:shadow-md cursor-pointer"
     >
       {/* Cover image */}
       {post.imageUrl ? (
@@ -85,10 +106,17 @@ function NewsCard({ post }: { post: SanityNewsPost }) {
             {post.excerpt}
           </p>
         )}
-        <div className="mt-auto pt-2">
-          <span className="font-body text-xs font-semibold text-primary group-hover:underline">
-            Read More →
+        {/* CTA row */}
+        <div className="mt-auto flex items-center justify-between pt-3 border-t border-slate/8">
+          <span className="font-body text-xs font-semibold text-primary transition-colors group-hover:text-dark">
+            {ctaLabel} →
           </span>
+          {/* Dev only: show target slug path */}
+          {IS_DEV && (
+            <span className="font-mono text-[10px] text-slate/30 truncate max-w-[140px]">
+              /news/{post.slug}
+            </span>
+          )}
         </div>
       </div>
     </Link>
@@ -243,7 +271,7 @@ export function NewsPageContent({ sanityAnnouncements, sanityResources, sanityCa
             sanityAnnouncements.length > 0 ? (
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {sanityAnnouncements.map((post) => (
-                  <NewsCard key={post._id} post={post} />
+                  <NewsCard key={post._id} post={post} ctaLabel="Read full article" />
                 ))}
               </div>
             ) : <EmptyState tab="announcements" />
@@ -263,7 +291,7 @@ export function NewsPageContent({ sanityAnnouncements, sanityResources, sanityCa
             sanityResources.length > 0 ? (
               <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
                 {sanityResources.map((post) => (
-                  <NewsCard key={post._id} post={post} />
+                  <NewsCard key={post._id} post={post} ctaLabel="Read full article" />
                 ))}
               </div>
             ) : <EmptyState tab="resources" />
