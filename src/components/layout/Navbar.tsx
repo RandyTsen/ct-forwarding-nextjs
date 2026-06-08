@@ -30,9 +30,9 @@ const NAV_ITEMS: NavItem[] = [
   {
     label: "News", href: "/news",
     children: [
-      { label: "Announcements", href: "/news/announcements" },
-      { label: "Careers",       href: "/news/careers" },
-      { label: "Resources",     href: "/news/resources" },
+      { label: "Announcements", href: "/news#announcements" },
+      { label: "Careers",       href: "/news#careers" },
+      { label: "Resources",     href: "/news#resources" },
     ],
   },
   { label: "Contact",  href: "/contact" },

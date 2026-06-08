@@ -1,12 +1,12 @@
 import { groq } from "next-sanity";
 
-// ── News Posts ────────────────────────────────────────────────────────────────
+// ── News Posts (listing) ──────────────────────────────────────────────────────
 
 export const allNewsPostsQuery = groq`
   *[_type == "newsPost"] | order(publishedAt desc) {
     _id,
     title,
-    slug,
+    "slug": slug.current,
     category,
     publishedAt,
     excerpt,
@@ -15,17 +15,41 @@ export const allNewsPostsQuery = groq`
   }
 `;
 
-export const newsPostsByCategory = groq`
-  *[_type == "newsPost" && category == $category] | order(publishedAt desc) {
+// ── Single News Post (detail) ─────────────────────────────────────────────────
+
+export const singleNewsPostQuery = groq`
+  *[_type == "newsPost" && slug.current == $slug][0] {
     _id,
     title,
-    slug,
+    "slug": slug.current,
+    category,
+    publishedAt,
+    excerpt,
+    tag,
+    "imageUrl": image.asset->url,
+    body,
+  }
+`;
+
+// ── Related Posts (same category, excluding current) ─────────────────────────
+
+export const relatedNewsPostsQuery = groq`
+  *[_type == "newsPost" && category == $category && slug.current != $slug] | order(publishedAt desc) [0...3] {
+    _id,
+    title,
+    "slug": slug.current,
     category,
     publishedAt,
     excerpt,
     tag,
     "imageUrl": image.asset->url,
   }
+`;
+
+// ── All slugs (for generateStaticParams) ─────────────────────────────────────
+
+export const allNewsSlugQuery = groq`
+  *[_type == "newsPost" && defined(slug.current)] { "slug": slug.current }
 `;
 
 // ── Career Posts ──────────────────────────────────────────────────────────────

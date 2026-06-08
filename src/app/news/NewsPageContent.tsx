@@ -1,7 +1,9 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
+import Image from "next/image";
+import { ChevronDown, ChevronUp } from "lucide-react";
 import { InnerLayout } from "@/components/inner/InnerLayout";
 import type { SanityNewsPost, SanityCareerPost } from "./types";
 
@@ -17,6 +19,12 @@ interface Props {
 
 type Tab = "announcements" | "careers" | "resources";
 
+const HASH_MAP: Record<string, Tab> = {
+  announcements: "announcements",
+  careers: "careers",
+  resources: "resources",
+};
+
 // ---------------------------------------------------------------------------
 // Sub-components
 // ---------------------------------------------------------------------------
@@ -29,100 +37,118 @@ function TagBadge({ label }: { label: string }) {
   );
 }
 
-function AnnouncementCard({
-  date,
-  tag,
-  title,
-  excerpt,
-}: {
-  date: string;
-  tag: string;
-  title: string;
-  excerpt: string;
-}) {
-  const formatted = new Date(date).toLocaleDateString("en-MY", {
+function formatDate(iso: string) {
+  return new Date(iso).toLocaleDateString("en-MY", {
     year: "numeric",
     month: "long",
     day: "numeric",
   });
+}
+
+// News / Resource card — clickable, links to /news/[slug]
+function NewsCard({ post }: { post: SanityNewsPost }) {
+  return (
+    <Link
+      href={`/news/${post.slug}`}
+      className="group flex flex-col gap-0 rounded-sm border border-slate/10 bg-smoke overflow-hidden transition-all hover:border-primary/20 hover:bg-white hover:shadow-md"
+    >
+      {/* Cover image */}
+      {post.imageUrl ? (
+        <div className="relative h-44 w-full overflow-hidden">
+          <Image
+            src={post.imageUrl}
+            alt={post.title}
+            fill
+            className="object-cover transition-transform duration-500 group-hover:scale-105"
+            sizes="(max-width: 768px) 100vw, 33vw"
+          />
+        </div>
+      ) : (
+        <div className="h-44 w-full bg-slate/5 flex items-center justify-center">
+          <span className="font-body text-xs uppercase tracking-widest text-slate/30">
+            CT Forwarding
+          </span>
+        </div>
+      )}
+
+      {/* Content */}
+      <div className="flex flex-col gap-3 p-5 flex-1">
+        <div className="flex items-center gap-3">
+          <span className="font-body text-xs text-slate/50">{formatDate(post.publishedAt)}</span>
+          {post.tag && <TagBadge label={post.tag} />}
+        </div>
+        <h3 className="font-display text-lg font-bold uppercase leading-tight text-carbon group-hover:text-primary transition-colors">
+          {post.title}
+        </h3>
+        {post.excerpt && (
+          <p className="font-body text-sm leading-relaxed text-slate/65 line-clamp-3">
+            {post.excerpt}
+          </p>
+        )}
+        <div className="mt-auto pt-2">
+          <span className="font-body text-xs font-semibold text-primary group-hover:underline">
+            Read More →
+          </span>
+        </div>
+      </div>
+    </Link>
+  );
+}
+
+// Career card — expandable accordion, no detail page needed
+function CareerCard({ job }: { job: SanityCareerPost }) {
+  const [expanded, setExpanded] = useState(false);
 
   return (
-    <article className="flex flex-col gap-4 rounded-sm border border-slate/10 bg-smoke p-6 transition-all hover:border-primary/20 hover:bg-white">
-      <div className="flex items-center gap-3">
-        <span className="font-body text-xs text-slate/60">{formatted}</span>
-        <TagBadge label={tag} />
-      </div>
-      <h3 className="font-display text-xl font-bold uppercase leading-tight text-carbon">
-        {title}
-      </h3>
-      <p className="font-body text-sm leading-relaxed text-slate/70">{excerpt}</p>
-      <div className="mt-auto pt-2">
-        <span className="cursor-not-allowed font-body text-xs font-semibold text-slate/40">
-          Coming Soon
+    <article className="flex flex-col gap-0 rounded-sm border border-slate/10 border-l-2 border-l-primary bg-smoke transition-all hover:border-primary/20 hover:bg-white">
+      {/* Header — always visible */}
+      <button
+        onClick={() => setExpanded((v) => !v)}
+        className="flex items-start justify-between gap-4 p-5 text-left cursor-pointer w-full"
+        aria-expanded={expanded}
+      >
+        <div className="flex flex-col gap-2">
+          <div className="flex flex-wrap items-center gap-2">
+            {job.department && <TagBadge label={job.department} />}
+            <span className="font-body text-xs font-semibold text-primary">{job.type}</span>
+          </div>
+          <h3 className="font-display text-lg font-bold uppercase leading-tight text-carbon">
+            {job.title}
+          </h3>
+          <p className="font-body text-xs text-slate/55">{job.location}</p>
+        </div>
+        <span className="mt-1 flex-shrink-0 text-slate/40">
+          {expanded ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
         </span>
-      </div>
-    </article>
-  );
-}
+      </button>
 
-function CareerCard({
-  department,
-  title,
-  type,
-  location,
-  description,
-}: {
-  department: string;
-  title: string;
-  type: string;
-  location: string;
-  description: string;
-}) {
-  return (
-    <article className="flex flex-col gap-4 rounded-sm border border-slate/10 border-l-2 border-l-primary bg-smoke p-6 transition-all hover:border-primary/20 hover:bg-white">
-      <div className="flex items-center gap-3">
-        <TagBadge label={department} />
-        <span className="font-body text-xs font-semibold text-primary">{type}</span>
-      </div>
-      <h3 className="font-display text-xl font-bold uppercase leading-tight text-carbon">
-        {title}
-      </h3>
-      <p className="font-body text-xs text-slate/60">{location}</p>
-      <p className="font-body text-sm leading-relaxed text-slate/70">{description}</p>
-      <div className="mt-auto pt-2">
-        <Link
-          href="/contact"
-          aria-label={`Apply for ${title} position`}
-          className="inline-block rounded-sm bg-primary px-5 py-3 font-body text-sm font-semibold text-white transition-colors hover:bg-dark cursor-pointer"
-        >
-          Apply Now
-        </Link>
-      </div>
-    </article>
-  );
-}
-
-function ResourceCard({
-  tag,
-  title,
-  excerpt,
-}: {
-  tag: string;
-  title: string;
-  excerpt: string;
-}) {
-  return (
-    <article className="flex flex-col gap-4 rounded-sm border border-slate/10 bg-smoke p-6 transition-all hover:border-primary/20 hover:bg-white">
-      <div className="flex items-center gap-3">
-        <TagBadge label={tag} />
-      </div>
-      <h3 className="font-display text-xl font-bold uppercase leading-tight text-carbon">
-        {title}
-      </h3>
-      <p className="font-body text-sm leading-relaxed text-slate/70">{excerpt}</p>
-      <div className="mt-auto pt-2">
-        <span className="font-body text-xs font-semibold text-slate/40">Coming Soon</span>
-      </div>
+      {/* Expanded details */}
+      {expanded && (
+        <div className="flex flex-col gap-4 px-5 pb-5">
+          {job.description && (
+            <p className="font-body text-sm leading-relaxed text-slate/70">{job.description}</p>
+          )}
+          {job.requirements && job.requirements.length > 0 && (
+            <ul className="flex flex-col gap-1.5">
+              {job.requirements.map((req, i) => (
+                <li key={i} className="flex items-start gap-2 font-body text-sm text-slate/65">
+                  <span className="mt-1.5 h-1.5 w-1.5 flex-shrink-0 rounded-full bg-primary" />
+                  {req}
+                </li>
+              ))}
+            </ul>
+          )}
+          <div className="pt-1">
+            <Link
+              href="/contact"
+              aria-label={`Apply for ${job.title}`}
+              className="inline-block rounded-sm bg-primary px-5 py-2.5 font-body text-sm font-semibold text-white transition-colors hover:bg-dark"
+            >
+              Apply Now
+            </Link>
+          </div>
+        </div>
+      )}
     </article>
   );
 }
@@ -135,20 +161,18 @@ function EmptyState({ tab }: { tab: Tab }) {
     },
     careers: {
       heading: "No open positions",
-      body: "We'll post career opportunities here when they become available.",
+      body: "Career opportunities will appear here when available.",
     },
     resources: {
       heading: "No resources yet",
-      body: "Guides and industry insights will appear here once published in the CMS.",
+      body: "Guides and industry insights will appear here once published.",
     },
   };
-
   const { heading, body } = messages[tab];
-
   return (
-    <div className="flex flex-col items-center justify-center py-20 text-center">
-      <p className="font-display text-2xl font-bold uppercase text-carbon/30">{heading}</p>
-      <p className="mt-2 font-body text-sm text-slate/50 max-w-sm">{body}</p>
+    <div className="flex flex-col items-center justify-center py-24 text-center">
+      <p className="font-display text-2xl font-bold uppercase text-carbon/25">{heading}</p>
+      <p className="mt-2 font-body text-sm text-slate/45 max-w-sm">{body}</p>
     </div>
   );
 }
@@ -157,12 +181,21 @@ function EmptyState({ tab }: { tab: Tab }) {
 // Main component
 // ---------------------------------------------------------------------------
 
-export function NewsPageContent({
-  sanityAnnouncements,
-  sanityResources,
-  sanityCarers,
-}: Props) {
+export function NewsPageContent({ sanityAnnouncements, sanityResources, sanityCarers }: Props) {
   const [activeTab, setActiveTab] = useState<Tab>("announcements");
+
+  // Read hash on mount to set initial tab (supports /news#careers etc.)
+  useEffect(() => {
+    const hash = window.location.hash.replace("#", "");
+    const tab = HASH_MAP[hash];
+    if (tab) setActiveTab(tab);
+  }, []);
+
+  // Sync hash when tab changes
+  function switchTab(tab: Tab) {
+    setActiveTab(tab);
+    history.replaceState(null, "", `/news#${tab}`);
+  }
 
   const tabs: { id: Tab; label: string; count: number }[] = [
     { id: "announcements", label: "Announcements", count: sanityAnnouncements.length },
@@ -172,110 +205,82 @@ export function NewsPageContent({
 
   return (
     <InnerLayout>
-      {/* Tabs section — no hardcoded hero above this */}
       <section className="bg-white py-20">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
 
-          {/* Section header */}
-          <div className="mb-10">
-            <p className="text-primary text-[11px] tracking-[0.45em] uppercase font-body font-semibold mb-2 flex items-center gap-2">
-              <span className="w-8 h-px bg-primary-light" />Latest from CT
-            </p>
-            <h1 className="font-display font-extrabold uppercase tracking-wide text-carbon leading-none"
-              style={{ fontSize: "clamp(2rem, 5vw, 3.5rem)" }}>
+          {/* Minimal page header */}
+          <div className="mb-10 border-b border-slate/10 pb-8">
+            <h1 className="font-display text-3xl font-bold uppercase tracking-wide text-carbon">
               News &amp; <span className="text-primary">Updates</span>
             </h1>
+            <p className="mt-2 font-body text-sm text-slate/55">
+              Announcements, career opportunities, and industry resources from CT Forwarding.
+            </p>
           </div>
 
           {/* Tab bar */}
-          <div className="mb-12 flex flex-wrap gap-2">
+          <div className="mb-10 flex flex-wrap gap-2" id="tabs">
             {tabs.map((tab) => (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`rounded-full px-6 py-2 font-body text-sm font-semibold transition-colors cursor-pointer ${
+                onClick={() => switchTab(tab.id)}
+                className={`rounded-full px-5 py-2 font-body text-sm font-semibold transition-colors cursor-pointer ${
                   activeTab === tab.id
                     ? "bg-primary text-white"
                     : "bg-smoke text-slate hover:bg-primary/10 hover:text-primary"
                 }`}
               >
                 {tab.label}
-                <span className={`ml-1.5 text-xs ${activeTab === tab.id ? "text-white/70" : "text-slate/40"}`}>
+                <span className={`ml-1.5 text-xs ${activeTab === tab.id ? "text-white/65" : "text-slate/40"}`}>
                   ({tab.count})
                 </span>
               </button>
             ))}
           </div>
 
-          {/* Tab content — CMS-driven, empty state if no content */}
+          {/* Tab content */}
           {activeTab === "announcements" && (
             sanityAnnouncements.length > 0 ? (
-              <div className="grid gap-6 lg:grid-cols-3">
-                {sanityAnnouncements.map((item) => (
-                  <AnnouncementCard
-                    key={item._id}
-                    date={item.publishedAt ?? new Date().toISOString()}
-                    tag={item.tag ?? "Update"}
-                    title={item.title}
-                    excerpt={item.excerpt ?? ""}
-                  />
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {sanityAnnouncements.map((post) => (
+                  <NewsCard key={post._id} post={post} />
                 ))}
               </div>
-            ) : (
-              <EmptyState tab="announcements" />
-            )
+            ) : <EmptyState tab="announcements" />
           )}
 
           {activeTab === "careers" && (
             sanityCarers.length > 0 ? (
-              <div className="grid gap-6 lg:grid-cols-3">
-                {sanityCarers.map((item) => (
-                  <CareerCard
-                    key={item._id}
-                    department={item.department ?? ""}
-                    title={item.title}
-                    type={item.type ?? "Full-time"}
-                    location={item.location ?? "Kota Kinabalu, Sabah"}
-                    description={item.description ?? ""}
-                  />
+              <div className="grid gap-4 lg:grid-cols-2">
+                {sanityCarers.map((job) => (
+                  <CareerCard key={job._id} job={job} />
                 ))}
               </div>
-            ) : (
-              <EmptyState tab="careers" />
-            )
+            ) : <EmptyState tab="careers" />
           )}
 
           {activeTab === "resources" && (
             sanityResources.length > 0 ? (
-              <div className="grid gap-6 lg:grid-cols-3">
-                {sanityResources.map((item) => (
-                  <ResourceCard
-                    key={item._id}
-                    tag={item.tag ?? "Resource"}
-                    title={item.title}
-                    excerpt={item.excerpt ?? ""}
-                  />
+              <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
+                {sanityResources.map((post) => (
+                  <NewsCard key={post._id} post={post} />
                 ))}
               </div>
-            ) : (
-              <EmptyState tab="resources" />
-            )
+            ) : <EmptyState tab="resources" />
           )}
 
         </div>
       </section>
 
-      {/* CTA section */}
+      {/* Join Our Team CTA */}
       <section className="bg-primary py-16">
         <div className="mx-auto max-w-7xl px-6 text-center lg:px-8">
-          <h2 className="font-display text-4xl font-bold uppercase text-white">
-            Join Our Team
-          </h2>
+          <h2 className="font-display text-4xl font-bold uppercase text-white">Join Our Team</h2>
           <p className="mx-auto mt-4 max-w-xl font-body text-base text-white/80">
             We&apos;re always looking for experienced logistics professionals across Sabah.
           </p>
           <button
-            onClick={() => setActiveTab("careers")}
+            onClick={() => switchTab("careers")}
             className="mt-8 inline-block rounded-sm bg-white px-8 py-3 font-body text-sm font-bold text-primary transition-colors hover:bg-smoke cursor-pointer"
           >
             View Open Positions
