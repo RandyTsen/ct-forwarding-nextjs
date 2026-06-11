@@ -1,19 +1,15 @@
-export const apiVersion =
-  process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2024-01-01";
+// Strip accidental whitespace or surrounding quotes from Vercel env var editor
+const rawProjectId = (process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "").trim().replace(/^["']|["']$/g, "");
+const rawDataset   = (process.env.NEXT_PUBLIC_SANITY_DATASET || "").trim() || "production";
 
-export const dataset =
-  process.env.NEXT_PUBLIC_SANITY_DATASET || "production";
+export const apiVersion = (process.env.NEXT_PUBLIC_SANITY_API_VERSION || "2024-01-01").trim();
+export const dataset    = rawDataset;
+export const projectId  = rawProjectId;
 
-export const projectId =
-  process.env.NEXT_PUBLIC_SANITY_PROJECT_ID || "";
-
-/**
- * Returns true only when all required env vars are present.
- * Use this guard before creating the Sanity client to avoid
- * module-init throws when env vars are missing (e.g. Vercel
- * build before env vars are configured).
- */
+// Only mark configured if projectId passes Sanity's format requirement (a-z, 0-9, dashes).
+// This prevents createClient from throwing at module init when the env var has an invalid value.
 export const sanityConfigured = Boolean(
-  process.env.NEXT_PUBLIC_SANITY_PROJECT_ID &&
-  process.env.NEXT_PUBLIC_SANITY_DATASET
+  rawProjectId &&
+  /^[a-z0-9][a-z0-9-]*$/.test(rawProjectId) &&
+  rawDataset
 );
