@@ -39,7 +39,7 @@ export async function generateMetadata({
     .catch(() => null);
   if (!post) return {};
   return {
-    title: `${post.title} | CT Forwarding`,
+    title: post.title,
     description: post.excerpt,
     openGraph: {
       title: post.title,

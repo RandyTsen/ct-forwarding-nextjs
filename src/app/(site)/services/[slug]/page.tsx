@@ -26,11 +26,11 @@ export async function generateMetadata({ params }: { params: Promise<{ slug: str
   const svc = getServiceBySlug(slug);
   if (!svc) return {};
   return {
-    title: `${svc.title} | CT Forwarding & Transport`,
-    description: svc.description.slice(0, 155),
+    title: svc.title,
+    description: svc.metaDescription,
     openGraph: {
       title: `${svc.title} — CT Forwarding & Transport`,
-      description: svc.description.slice(0, 155),
+      description: svc.metaDescription,
       url: `https://ctforwarding.com.my/services/${slug}`,
     },
   };

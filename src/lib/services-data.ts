@@ -5,6 +5,7 @@ export interface ServiceData {
   icon: string;
   short: string;
   description: string;
+  metaDescription: string;
   features: string[];
   stats: { v: string; l: string }[];
   image: string;
@@ -19,6 +20,7 @@ export const SERVICES_DATA: ServiceData[] = [
     icon: "truck",
     short: "200+ Fleet Units · LPKP Licensed",
     description: "CT Forwarding operates Sabah's most comprehensive private logistics fleet — 200+ units across 10 specialised vehicle types. From 20ft container haulage to oversized low-loader transport, every vehicle is LPKP licensed, GPS-tracked, and matched precisely to cargo requirements.",
+    metaDescription: "Sabah's largest private logistics fleet — 200+ units, 10 vehicle types, all LPKP licensed and GPS-tracked. Container haulage, low-loaders, car carriers and more.",
     features: [
       "51 prime movers — 20ft & 40ft containers",
       "6 side loaders — self-loading container handling",
@@ -45,6 +47,7 @@ export const SERVICES_DATA: ServiceData[] = [
     icon: "package",
     short: "Sea · Air · Customs Clearance",
     description: "CT Forwarding holds in-house Licensed Customs Agent status — a credential that delivers seamless port-to-warehouse clearance with no third-party delays. Sea freight, air freight, and full customs brokerage under one roof, backed by deep Sabah port knowledge built over 25+ years.",
+    metaDescription: "In-house Licensed Customs Agent for seamless port-to-warehouse clearance. Sea freight, air freight, and full customs brokerage across Sabah — no third-party delays.",
     features: [
       "In-house Licensed Customs Agent",
       "Sea freight (FCL & LCL)",
@@ -71,6 +74,7 @@ export const SERVICES_DATA: ServiceData[] = [
     icon: "warehouse",
     short: "KKIP Strategic Location · Full-Service",
     description: "CT Forwarding's 120,000+ sq.ft warehouse at Kota Kinabalu Industrial Park is positioned at the strategic centre of Sabah's port and industrial logistics network. Full-service stuffing, unstuffing, inventory management, and precision last-mile distribution — all from one controlled facility.",
+    metaDescription: "120,000+ sq.ft warehouse at KKIP — container stuffing, inventory management, bonded storage, and last-mile distribution across Kota Kinabalu. Secure, 24/7 operations.",
     features: [
       "120,000+ sq.ft at KKIP",
       "Container stuffing & unstuffing",
@@ -97,6 +101,7 @@ export const SERVICES_DATA: ServiceData[] = [
     icon: "package",
     short: "Secure · Inspected · Managed",
     description: "CT Forwarding's container depot and open yard at KKIP provides professionally managed container storage, inspection, and maintenance — positioned at the core of Sabah's port and industrial logistics network. Empty and laden containers handled with full documentation and chain of custody.",
+    metaDescription: "Managed container depot and open yard at KKIP. Storage, inspection, and maintenance for 20ft and 40ft containers — bonded yard, full documentation, chain of custody.",
     features: [
       "Container storage (20ft & 40ft)",
       "Empty container management",
@@ -123,6 +128,7 @@ export const SERVICES_DATA: ServiceData[] = [
     icon: "cog",
     short: "Heavy Lift · Oversized · High-Value",
     description: "CT Forwarding specialises in complex, high-value, and oversized project cargo — the category that demands the most from a logistics partner. Trusted by Sabah's largest infrastructure and energy players for over a decade, CT delivers precision-engineered transport plans for cargo that cannot fail.",
+    metaDescription: "Trusted by Petronas, Telekom & Ranhill for heavy-lift and oversized project cargo. Precision transport planning for Sabah's most demanding logistics challenges.",
     features: [
       "Heavy lift & oversized cargo transport",
       "Low-loader specialist operations",
@@ -149,6 +155,7 @@ export const SERVICES_DATA: ServiceData[] = [
     icon: "shield",
     short: "Marine Insurance · Supply Chain Advisory",
     description: "Beyond transport and storage, CT Forwarding provides specialised services that complete the logistics picture — marine and inland cargo insurance, cargo consolidation and deconsolidation, and bespoke supply chain consultation for complex logistics challenges.",
+    metaDescription: "Marine and inland cargo insurance, consolidation, deconsolidation, and supply chain consultation — completing the logistics picture for businesses across Sabah.",
     features: [
       "Marine cargo insurance",
       "Inland transit insurance",

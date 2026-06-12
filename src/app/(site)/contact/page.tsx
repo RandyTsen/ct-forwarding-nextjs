@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { ContactPageContent } from "./ContactPageContent";
 
 export const metadata: Metadata = {
-  title: "Contact Us | CT Forwarding & Transport Sdn Bhd",
+  title: "Contact Us",
   description:
     "Contact CT Forwarding & Transport — enquire about transportation, freight forwarding, warehousing, or project cargo in Sabah. Call 088-259663 or email us today.",
   openGraph: {

@@ -8,7 +8,7 @@ import type { SanityNewsPost, SanityCareerPost } from "./types";
 export const revalidate = 60; // ISR: revalidate every 60 seconds
 
 export const metadata: Metadata = {
-  title: "News & Updates | CT Forwarding & Transport Sdn Bhd",
+  title: "News & Updates",
   description:
     "Latest news, announcements, career opportunities, and industry resources from CT Forwarding & Transport — Sabah's premier logistics company.",
   openGraph: {

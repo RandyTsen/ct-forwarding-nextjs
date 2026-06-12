@@ -8,7 +8,7 @@ import type { SanityProject } from "./types";
 export const revalidate = 60; // ISR: revalidate every 60 seconds
 
 export const metadata: Metadata = {
-  title: "Projects | CT Forwarding & Transport Sdn Bhd",
+  title: "Projects",
   description:
     "CT Forwarding's project portfolio — 10+ years as preferred contractor for Telekom Malaysia, Petronas Carigali, and Ranhill Engineering. Sabah's trusted logistics partner.",
   openGraph: {
