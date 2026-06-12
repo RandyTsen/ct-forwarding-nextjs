@@ -17,7 +17,7 @@ export default function PrivacyPolicyPage() {
             Privacy Policy
           </h1>
           <p className="font-body text-sm text-slate/50 mb-10">
-            Last updated: June 2025 &nbsp;|&nbsp; CT Forwarding &amp; Transport Sdn Bhd (Co. No. 500895-V)
+            Last updated: June 2026 &nbsp;|&nbsp; CT Forwarding &amp; Transport Sdn Bhd (Co. No. 500895-V)
           </p>
 
           <div className="prose-ct space-y-10 font-body text-base leading-relaxed text-carbon/80">

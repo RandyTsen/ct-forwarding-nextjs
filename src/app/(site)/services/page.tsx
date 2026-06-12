@@ -4,7 +4,7 @@ import { ServicesPageContent } from "./ServicesPageContent";
 export const metadata: Metadata = {
   title: "Our Services",
   description:
-    "CT Forwarding offers logistics services in Sabah — transportation, freight forwarding, warehousing, container depot, breakbulk and project cargo. Trusted since 1999.",
+    "Full-service logistics in Sabah — transportation, freight forwarding, warehousing & project cargo. CT Forwarding & Transport, trusted since 1999.",
   openGraph: {
     title: "Logistics Services | CT Forwarding & Transport",
     description:

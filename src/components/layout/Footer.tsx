@@ -18,6 +18,7 @@ const quickLinks = [
   { label: "Projects",    href: "/projects" },
   { label: "News",        href: "/news" },
   { label: "Careers",     href: "/news/careers" },
+  { label: "FAQ",         href: "/faq" },
   { label: "Contact Us",  href: "/contact" },
 ];
 

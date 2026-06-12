@@ -10,7 +10,7 @@ export const revalidate = 60; // ISR: revalidate every 60 seconds
 export const metadata: Metadata = {
   title: "Projects",
   description:
-    "CT Forwarding's project portfolio — 10+ years as preferred contractor for Telekom Malaysia, Petronas Carigali, and Ranhill Engineering. Sabah's trusted logistics partner.",
+    "CT Forwarding's project portfolio — preferred contractor for Telekom, Petronas & Ranhill. Heavy-lift, breakbulk & project cargo specialists in Sabah since 1999.",
   openGraph: {
     title: "Projects & Case Studies | CT Forwarding",
     description: "Real projects. Real results. Sabah's most trusted logistics partner.",

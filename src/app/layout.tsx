@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     template: "%s | CT Forwarding & Transport",
   },
   description:
-    "CT Forwarding & Transport Sdn Bhd — Sabah's leading logistics company since 1999. Container haulage, freight forwarding, warehousing, and project cargo across Kota Kinabalu and all major Sabah towns.",
+    "CT Forwarding & Transport — Sabah's leading logistics company since 1999. Container haulage, customs clearance, warehousing & project cargo. Call 088-259663.",
   keywords: [
     "CT Forwarding",
     "logistics Sabah",
