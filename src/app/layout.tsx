@@ -86,7 +86,7 @@ export default function RootLayout({ children }: Readonly<{ children: React.Reac
           },
           "contactPoint": {
             "@type": "ContactPoint",
-            "telephone": "+60882596663",
+            "telephone": "+6088259663",
             "contactType": "customer service",
             "email": "contact@ctforwarding.com.my"
           },

@@ -133,11 +133,32 @@ export default async function NewsDetailPage({
 
   if (!post) notFound();
 
+  const newsArticleSchema = {
+    "@context": "https://schema.org",
+    "@type": "NewsArticle",
+    "headline": post.title,
+    "description": post.excerpt ?? "",
+    "datePublished": post.publishedAt,
+    "image": post.imageUrl ? [post.imageUrl] : [],
+    "url": `https://www.ctforwarding.com.my/news/${slug}`,
+    "publisher": {
+      "@type": "Organization",
+      "name": "CT Forwarding & Transport Sdn Bhd",
+      "url": "https://www.ctforwarding.com.my",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.ctforwarding.com.my/images/logo/ct-logo.svg"
+      }
+    }
+  };
+
   const backHref = `/news#${post.category === "resource" ? "resources" : "announcements"}`;
   const relatedPosts = related.filter((r) => r._id !== post._id).slice(0, 3);
 
   return (
     <InnerLayout>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(newsArticleSchema) }} />
+
       {/* Hero / cover */}
       {post.imageUrl && (
         <div className="relative h-72 w-full overflow-hidden md:h-96 lg:h-[28rem]">

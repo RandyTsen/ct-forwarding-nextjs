@@ -12,6 +12,36 @@ export const metadata: Metadata = {
   },
 };
 
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "name": "CT Forwarding & Transport Sdn Bhd",
+  "url": "https://www.ctforwarding.com.my/contact",
+  "telephone": "+6088259663",
+  "email": "contact@ctforwarding.com.my",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Unit A905, 9th Floor, Wisma Merdeka Phase 1, Jalan Tun Razak",
+    "addressLocality": "Kota Kinabalu",
+    "addressRegion": "Sabah",
+    "postalCode": "88000",
+    "addressCountry": "MY"
+  },
+  "openingHoursSpecification": [
+    {
+      "@type": "OpeningHoursSpecification",
+      "dayOfWeek": ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday"],
+      "opens": "08:00",
+      "closes": "17:30"
+    }
+  ]
+};
+
 export default function ContactPage() {
-  return <ContactPageContent />;
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+      <ContactPageContent />
+    </>
+  );
 }

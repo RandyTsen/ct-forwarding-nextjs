@@ -14,6 +14,39 @@ export const metadata: Metadata = {
   },
 };
 
+const schema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": "CT Forwarding & Transport Sdn Bhd",
+  "alternateName": "CT Forwarding",
+  "url": "https://www.ctforwarding.com.my",
+  "logo": "https://www.ctforwarding.com.my/images/logo/ct-logo.svg",
+  "foundingDate": "1999",
+  "numberOfEmployees": { "@type": "QuantitativeValue", "minValue": 50 },
+  "description": "Sabah's largest private logistics operator since 1999 — 200+ fleet units, in-house Licensed Customs Agent, 120,000+ sq.ft warehousing at KKIP, and project cargo for Petronas, Telekom, and Ranhill.",
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "Unit A905, 9th Floor, Wisma Merdeka Phase 1, Jalan Tun Razak",
+    "addressLocality": "Kota Kinabalu",
+    "addressRegion": "Sabah",
+    "postalCode": "88000",
+    "addressCountry": "MY"
+  },
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "telephone": "+6088259663",
+    "contactType": "customer service",
+    "email": "contact@ctforwarding.com.my",
+    "availableLanguage": ["English", "Malay", "Chinese"]
+  },
+  "areaServed": { "@type": "State", "name": "Sabah" }
+};
+
 export default function AboutPage() {
-  return <AboutPageContent />;
+  return (
+    <>
+      <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+      <AboutPageContent />
+    </>
+  );
 }

@@ -40,5 +40,28 @@ export default async function ServicePage({ params }: { params: Promise<{ slug: 
   const { slug } = await params;
   const Component = CONTENT_MAP[slug];
   if (!Component) notFound();
-  return <Component />;
+  const svc = getServiceBySlug(slug);
+  const schema = svc ? {
+    "@context": "https://schema.org",
+    "@type": "Service",
+    "name": svc.title,
+    "description": svc.metaDescription,
+    "url": `https://www.ctforwarding.com.my/services/${slug}`,
+    "provider": {
+      "@type": "LocalBusiness",
+      "name": "CT Forwarding & Transport Sdn Bhd",
+      "url": "https://www.ctforwarding.com.my",
+      "telephone": "+6088259663"
+    },
+    "areaServed": { "@type": "State", "name": "Sabah" },
+    "serviceType": "Logistics"
+  } : null;
+  return (
+    <>
+      {schema && (
+        <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
+      )}
+      <Component />
+    </>
+  );
 }

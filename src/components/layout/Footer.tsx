@@ -166,6 +166,10 @@ export function Footer() {
           <div className="flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-white/35">
             <p>
               © {year} CT Forwarding &amp; Transport Sdn Bhd. All rights reserved.
+              &nbsp;&nbsp;
+              <Link href="/privacy-policy" className="hover:text-white/60 transition-colors underline underline-offset-2">
+                Privacy Policy
+              </Link>
             </p>
             <p className="font-mono tracking-wider">
               Co. No: 199901025995 (500895-V) &nbsp;|&nbsp; SST: S10-1808-31012358
