@@ -64,7 +64,7 @@ export function Footer() {
               </p>
             </Link>
             <p className="text-white/55 text-sm leading-relaxed">
-              Sabah&apos;s trusted logistics partner since 1998. Delivering reliability
+              Sabah&apos;s trusted logistics partner since 1999. Delivering reliability
               across the state — container haulage, freight forwarding, warehousing,
               and beyond.
             </p>

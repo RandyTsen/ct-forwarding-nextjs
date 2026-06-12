@@ -24,7 +24,7 @@ export const metadata: Metadata = {
     template: "%s | CT Forwarding & Transport",
   },
   description:
-    "CT Forwarding & Transport Sdn Bhd — Sabah's leading logistics company since 1998. Container haulage, freight forwarding, warehousing, and project cargo across Kota Kinabalu and all major Sabah towns.",
+    "CT Forwarding & Transport Sdn Bhd — Sabah's leading logistics company since 1999. Container haulage, freight forwarding, warehousing, and project cargo across Kota Kinabalu and all major Sabah towns.",
   keywords: [
     "CT Forwarding",
     "logistics Sabah",
@@ -43,12 +43,12 @@ export const metadata: Metadata = {
     siteName: "CT Forwarding & Transport Sdn Bhd",
     title: "CT Forwarding & Transport — Sabah's Trusted Logistics Partner",
     description:
-      "Established 1998. Container haulage, freight forwarding, warehousing & project cargo across Sabah.",
+      "Established 1999. Container haulage, freight forwarding, warehousing & project cargo across Sabah.",
   },
   twitter: {
     card: "summary_large_image",
     title: "CT Forwarding & Transport Sdn Bhd",
-    description: "Sabah's trusted logistics partner since 1998.",
+    description: "Sabah's trusted logistics partner since 1999.",
   },
   robots: { index: true, follow: true },
 };
