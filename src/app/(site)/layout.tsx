@@ -1,5 +1,6 @@
 import { Navbar } from "@/components/layout/Navbar";
 import { CustomCursor } from "@/components/common/CustomCursor";
+import { WhatsAppButton } from "@/components/common/WhatsAppButton";
 
 /**
  * Site layout — applies to all public website pages.
@@ -11,6 +12,7 @@ export default function SiteLayout({ children }: { children: React.ReactNode }) 
       <CustomCursor />
       <Navbar />
       <main className="flex-1">{children}</main>
+      <WhatsAppButton />
     </div>
   );
 }
