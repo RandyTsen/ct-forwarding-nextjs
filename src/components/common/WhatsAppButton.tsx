@@ -1,12 +1,19 @@
 "use client";
 
 import { useState } from "react";
+import { usePathname } from "next/navigation";
 
-// WhatsApp number: KK main office 088-259663 → +60882259663
-const WA_URL = "https://wa.me/60882259663";
+const WA_URL =
+  "https://wa.me/60882259663?text=Hi%20CT%20Forwarding%2C%20I%20would%20like%20to%20enquire%20about%20your%20logistics%20services.";
+
+// Pages where the floating button should not appear
+const HIDDEN_ON = ["/privacy-policy"];
 
 export function WhatsAppButton() {
   const [hovered, setHovered] = useState(false);
+  const pathname = usePathname();
+
+  if (HIDDEN_ON.includes(pathname)) return null;
 
   return (
     <a
@@ -17,26 +24,32 @@ export function WhatsAppButton() {
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
       className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5 group"
-      style={{ filter: "drop-shadow(0 4px 12px rgba(37,211,102,0.35))" }}
+      style={{ filter: "drop-shadow(0 4px 12px rgba(37,211,102,0.40))" }}
     >
       {/* Tooltip */}
       <span
         className="font-body text-xs font-semibold text-white bg-carbon/90 px-3 py-1.5 rounded-sm whitespace-nowrap transition-all duration-200"
         style={{
           opacity: hovered ? 1 : 0,
-          transform: hovered ? "translateX(0)" : "translateX(6px)",
+          transform: hovered ? "translateX(0)" : "translateX(8px)",
           pointerEvents: "none",
         }}
       >
-        Chat with us
+        Chat with us on WhatsApp
       </span>
+
+      {/* Pulse ring */}
+      <span
+        className="absolute right-0 bottom-0 w-14 h-14 rounded-full animate-ping"
+        style={{ backgroundColor: "rgba(37,211,102,0.35)" }}
+        aria-hidden="true"
+      />
 
       {/* Button */}
       <div
-        className="w-14 h-14 rounded-full flex items-center justify-center transition-transform duration-200 group-hover:scale-110"
+        className="relative w-14 h-14 rounded-full flex items-center justify-center transition-transform duration-200 group-hover:scale-110"
         style={{ backgroundColor: "#25D366" }}
       >
-        {/* WhatsApp SVG icon */}
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"

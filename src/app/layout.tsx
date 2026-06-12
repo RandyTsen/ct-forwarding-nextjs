@@ -44,6 +44,7 @@ export const metadata: Metadata = {
     title: "CT Forwarding & Transport — Sabah's Trusted Logistics Partner",
     description:
       "Established 1999. Container haulage, freight forwarding, warehousing & project cargo across Sabah.",
+    images: [{ url: "/opengraph-image", width: 1200, height: 630, alt: "CT Forwarding & Transport — Sabah's Trusted Logistics Partner" }],
   },
   twitter: {
     card: "summary_large_image",
