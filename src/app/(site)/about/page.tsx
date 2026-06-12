@@ -4,7 +4,7 @@ import { AboutPageContent } from "./AboutPageContent";
 export const metadata: Metadata = {
   title: "About Us | CT Forwarding & Transport Sdn Bhd",
   description:
-    "CT Forwarding & Transport — Sabah's premier logistics company since 1999. 200+ fleet units, CMILT-certified leadership, and 40+ years of combined industry expertise.",
+    "CT Forwarding & Transport — Sabah's premier logistics company since 1999. 200+ fleet units, CMILT-certified leadership, and 25+ years of logistics expertise.",
   openGraph: {
     title: "About CT Forwarding & Transport Sdn Bhd",
     description:

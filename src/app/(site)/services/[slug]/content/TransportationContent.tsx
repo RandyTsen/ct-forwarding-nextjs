@@ -24,7 +24,7 @@ const TRUST = [
   { v: "LPKP Licensed", sub: "Every vehicle, every route" },
   { v: "GPS Tracked", sub: "Real-time visibility" },
   { v: "24/7 Operations", sub: "No downtime" },
-  { v: "40+ Years", sub: "Industry experience" },
+  { v: "25+ Years", sub: "Industry expertise" },
 ];
 
 export function TransportationContent() {

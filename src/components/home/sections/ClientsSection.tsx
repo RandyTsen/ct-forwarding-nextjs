@@ -78,7 +78,7 @@ export function ClientsSection() {
         <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
             <p className="font-display font-bold text-xl uppercase tracking-wide text-white">Ready to Move Your Cargo?</p>
-            <p className="text-white/65 text-xs font-body mt-0.5">Sabah-wide coverage · 40+ years expertise · Reliable, every time.</p>
+            <p className="text-white/65 text-xs font-body mt-0.5">Sabah-wide coverage · 25+ years expertise · Reliable, every time.</p>
           </div>
           <Link href="/contact"
             className="flex-shrink-0 inline-flex items-center gap-2 bg-white text-primary font-body font-bold px-7 py-3 rounded-sm text-sm tracking-wide hover:bg-gold hover:text-carbon transition-colors duration-200">

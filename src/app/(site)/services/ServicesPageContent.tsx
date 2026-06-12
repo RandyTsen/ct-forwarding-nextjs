@@ -89,7 +89,7 @@ export function ServicesPageContent() {
               { v: "200+", l: "Units" },
               { v: "10", l: "Types" },
               { v: "120,000+", l: "Sq.Ft" },
-              { v: "40+", l: "Years" },
+              { v: "25+", l: "Years" },
             ].map((stat) => (
               <div key={stat.l} className="text-center">
                 <p
