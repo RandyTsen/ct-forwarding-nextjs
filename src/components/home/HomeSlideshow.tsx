@@ -6,12 +6,12 @@ import { ChevronUp, ChevronDown } from "lucide-react";
 
 export const SLIDE_IDS = [
   "slide-hero", "slide-services", "slide-fleet",
-  "slide-why-ct", "slide-projects", "slide-clients",
+  "slide-why-ct", "slide-projects", "slide-trusted-by", "slide-clients",
 ];
-const SLIDE_LABELS = ["Home", "What We Do", "Our Fleet", "Why CT", "Projects", "Connect"];
+const SLIDE_LABELS = ["Home", "What We Do", "Our Fleet", "Why CT", "Projects", "Clients", "Connect"];
 
 // Slides with light (white/smoke) backgrounds — nav elements need dark colour
-const LIGHT_SLIDES = new Set([1, 3, 5]);
+const LIGHT_SLIDES = new Set([1, 3, 5, 6]);
 
 interface HomeSlideshowProps { children: React.ReactNode; }
 

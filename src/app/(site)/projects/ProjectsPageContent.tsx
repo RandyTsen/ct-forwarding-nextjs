@@ -94,6 +94,34 @@ const FALLBACK_PROJECTS = [
       { v: "On-Site", l: "Engineering" },
     ],
   },
+  {
+    id: "kkip",
+    accentColor: "#1D6FBF",
+    tag: "Container Haulage & Depot Operations",
+    client: "KKIP Industrial Clients",
+    scope: "High-Volume Container Movements & Depot Management",
+    duration: "Ongoing Operations",
+    period: "Daily — KK Port ↔ KKIP",
+    image: "/images/fleet/container-haulage.jpg",
+    imageAlt: "CT Forwarding container haulage at KKIP industrial park",
+    highlight: "50+",
+    highlightLabel: "Prime Movers Deployed",
+    description:
+      "Daily container movements between Kota Kinabalu Port and KKIP industrial park, supported by CT's 120,000+ sq.ft container depot. With 50+ prime movers running dedicated KKIP schedules and priority berthing coordination with port operators, CT delivers consistent volume support for over 10 industrial clients simultaneously.",
+    outcomes: [
+      "Average port-to-depot transit under 4 hours",
+      "Dedicated KKIP run schedule — 7 days a week",
+      "Priority berthing coordination with KK Port operators",
+      "10+ concurrent industrial clients supported",
+      "Container inspection and bonded storage on-site",
+    ],
+    metrics: [
+      { v: "<4h",  l: "Transit Time" },
+      { v: "10+",  l: "Industrial Clients" },
+      { v: "50+",  l: "Prime Movers" },
+      { v: "120K+", l: "Sq.Ft Depot" },
+    ],
+  },
 ] as const;
 
 type ProjectData = {

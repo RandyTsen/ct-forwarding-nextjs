@@ -1,11 +1,12 @@
-import { LoadingScreen }   from "@/components/common/LoadingScreen";
-import { HomeSlideshow }   from "@/components/home/HomeSlideshow";
-import { HeroSection }     from "@/components/home/sections/HeroSection";
-import { ServicesSection } from "@/components/home/sections/ServicesSection";
-import { FleetTeaser }     from "@/components/home/sections/FleetTeaser";
-import { WhyCTSection }    from "@/components/home/sections/WhyCTSection";
-import { ProjectsSection } from "@/components/home/sections/ProjectsSection";
-import { ClientsSection }  from "@/components/home/sections/ClientsSection";
+import { LoadingScreen }     from "@/components/common/LoadingScreen";
+import { HomeSlideshow }     from "@/components/home/HomeSlideshow";
+import { HeroSection }       from "@/components/home/sections/HeroSection";
+import { ServicesSection }   from "@/components/home/sections/ServicesSection";
+import { FleetTeaser }       from "@/components/home/sections/FleetTeaser";
+import { WhyCTSection }      from "@/components/home/sections/WhyCTSection";
+import { ProjectsSection }   from "@/components/home/sections/ProjectsSection";
+import { TrustedBySection }  from "@/components/home/sections/TrustedBySection";
+import { ClientsSection }    from "@/components/home/sections/ClientsSection";
 
 const localBusinessSchema = {
   "@context": "https://schema.org",
@@ -68,6 +69,7 @@ export default function HomePage() {
         <FleetTeaser />
         <WhyCTSection />
         <ProjectsSection />
+        <TrustedBySection />
         <ClientsSection />
       </HomeSlideshow>
     </>

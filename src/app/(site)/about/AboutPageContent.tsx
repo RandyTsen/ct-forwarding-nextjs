@@ -20,12 +20,11 @@ const stagger = {
 /* ─── Data ─── */
 const TIMELINE = [
   { year: "1999", event: "CT Forwarding & Transport Sdn Bhd founded in Kota Kinabalu, Sabah" },
-  { year: "2003", event: "Expanded fleet to 50+ units, established core Sabah routes" },
-  { year: "2007", event: "KKIP warehouse operations commenced — 120,000+ sq.ft facility" },
-  { year: "2010", event: "Fleet grew to 100+ units, licensed as Customs Agent" },
-  { year: "2015", event: "Awarded preferred lorry crane contractor by Telekom Malaysia" },
-  { year: "2020", event: "Fleet exceeded 200 units, Petronas Carigali & Ranhill partnerships deepened" },
-  { year: "2025", event: "Digital infrastructure upgrade, online platform launch" },
+  { year: "2005", event: "Fleet expansion beyond 50 units; customs clearance division established — in-house Licensed Customs Agent credential obtained" },
+  { year: "2010", event: "Container depot operations launched at KKIP; fleet grows to support industrial client base" },
+  { year: "2015", event: "Fleet exceeds 100 units; Sandakan branch opened to serve East Sabah corridor" },
+  { year: "2018", event: "Tawau branch opened; project cargo division formalised following major Petronas and Ranhill contracts" },
+  { year: "2023", event: "Fleet surpasses 200 units; 120,000+ sq.ft KKIP depot reaches full operational capacity" },
 ];
 
 const DIRECTORS = [
